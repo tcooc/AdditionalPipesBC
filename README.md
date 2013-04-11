@@ -1,6 +1,7 @@
 ## Update of Additional Pipes for BC3 and Minecraft 1.4+
 
 ### Testing builds: http://www.mediafire.com/tcooc ####
+To install, place in the standard minecraft/mods folder.
 
 ### Credits to Zeldo, DaStormBringer, and Kyprus for their work on the mod.
 
