@@ -1,9 +1,9 @@
 ## Update of Additional Pipes for BC3 and Minecraft 1.4+
 
-### Testing builds: http://www.mediafire.com/tcooc ####
+### Testing builds: https://www.dropbox.com/sh/tjzx65jqfrwvd73/jHuONV6I5t/AdditionalPipes2.1.4u52-BC3.5.0-MC1.5.1.jar ####
 To install, place in the standard minecraft/mods folder.
-
-### Credits to Zeldo, DaStormBringer, and Kyprus for their work on the mod.
+REQUIRE Forge 650+, BC 3.5.0, See also Logistics Pipes for 1.5.1
+### Credits to Zeldo, DaStormBringer, Kyprus, tcooc, gejzer for their work on the mod.
 
 1.2.5 Thread: http://www.minecraftforum.net/topic/856360-125bc2214-bc315rev213rev310-additional-pipes-for-buildcraft-teleport-pipes/
 

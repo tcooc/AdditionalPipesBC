@@ -29,7 +29,7 @@ public class PipeLiquidsWaterPump extends APPipe {
 	}
 
 	@Override
-	public int getTextureIndex(ForgeDirection direction) {
+	public int getIconIndex(ForgeDirection direction) {
 		return 24;
 	}
 

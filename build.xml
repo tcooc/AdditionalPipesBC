@@ -1,24 +1,25 @@
-<project name="AdditionalPipes" basedir="../BuildCraft/" default="package">
-	<property name="version" value="2.1.3u42" />
-	<property name="mc.version" value="1.4.7" />
-	<property name="bc.version" value="3.4.2" />
+<project name="AdditionalPipes" basedir="../" default="package">
+	<property name="version" value="2.1.4u52" />
+	<property name="mc.version" value="1.5.1" />
+	<property name="bc.version" value="3.5.0" />
 	<property name="mcp.dir" value="build/forge/mcp" />
-	<property name="src.dir" value="../AdditionalPipes" />
+	<property name="src.dir" value="AdditionalPipesBC" />
 	<property name="jar.dir" value="bin/ap" />
 	<property name="build.dir" value="build/ap" />
 
 	<target name="clean">
 		<delete dir="${jar.dir}"/>
+		<delete dir="${build.dir}"/>
 	</target>
 	
 	<target name="copy-src">
 		<copy todir="${mcp.dir}/src/minecraft/buildcraft">
 			<fileset dir="${src.dir}/buildcraft">
-				<exclude name="**/*.png"/>
+				<!--exclude name="**/*.png"/-->
 			</fileset>
-			<filterset>
+			<!--<filterset>
 				<filter token="VERSION" value="${version}" />
-			</filterset>
+			</filterset>-->
 		</copy>
 	</target>
 	
@@ -31,10 +32,10 @@
 		</exec>
 		
 		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows">
-			<arg line="/c reobfuscate.bat"/>
+			<arg line="/c reobfuscate_srg.bat"/>
 		</exec>
 		<exec dir="${mcp.dir}" executable="sh" osfamily="unix">
-			<arg value="reobfuscate.sh" />
+			<arg value="reobfuscate_srg.sh" />
 		</exec>	
 	</target>
 	
@@ -44,18 +45,14 @@
 			<fileset dir="${mcp.dir}/reobf/minecraft/buildcraft/additionalpipes" />
 		</copy>
 
-		<copy todir="${build.dir}" file="${src.dir}/mcmod.info">
-			<filterset>
-				<filter token="VERSION" value="${version}" />
-			</filterset>
-		</copy>
 		<copy todir="${build.dir}/buildcraft/additionalpipes/lang">
 			<fileset dir="${src.dir}/buildcraft/additionalpipes/lang" />
 		</copy>
-		<copy todir="${build.dir}/buildcraft/additionalpipes/sprites">
-			<fileset dir="${src.dir}/buildcraft/additionalpipes/sprites" />
+		<copy todir="${build.dir}">
+			<fileset dir="${src.dir}/ressources" />
 		</copy>
-
+		<replace file="${build.dir}/mcmod.info" token="@VERSION@" value="${version}"/>
+		
 		<jar destfile="${jar.dir}/AdditionalPipes${version}-BC${bc.version}-MC${mc.version}.jar" basedir="${build.dir}" />
 	</target>
 </project>

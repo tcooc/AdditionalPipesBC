@@ -48,7 +48,7 @@ public class PipeLogicAdvancedWood extends PipeLogic implements IInventory {
 		}
 
 		if (newMeta != meta) {
-			worldObj.setBlockMetadata(xCoord, yCoord, zCoord, newMeta);
+			worldObj.setBlock(xCoord, yCoord, zCoord, newMeta);
 			container.scheduleRenderUpdate();
 			//worldObj.markBlockNeedsUpdate(xCoord, yCoord, zCoord);
 		}
@@ -215,6 +215,18 @@ public class PipeLogicAdvancedWood extends PipeLogic implements IInventory {
 	@Override
 	public boolean doDrop() {
 		Utils.dropItems(worldObj, this, xCoord, yCoord, zCoord);
+		return true;
+	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		// TODO look around
 		return true;
 	}
 

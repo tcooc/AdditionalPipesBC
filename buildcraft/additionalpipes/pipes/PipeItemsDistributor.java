@@ -27,7 +27,7 @@ public class PipeItemsDistributor extends APPipe implements IPipeTransportItemsH
 	}
 
 	@Override
-	public int getTextureIndex(ForgeDirection connection) {
+	public int getIconIndex(ForgeDirection connection) {
 		switch (connection) {
 		case DOWN:    //-y
 			return 10;

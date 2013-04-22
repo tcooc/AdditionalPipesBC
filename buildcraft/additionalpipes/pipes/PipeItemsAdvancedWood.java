@@ -137,7 +137,7 @@ public class PipeItemsAdvancedWood extends APPipe implements IPowerReceptor {
 	}
 
 	@Override
-	public int powerRequest() {
+	public int powerRequest(ForgeDirection from) {
 		return getPowerProvider().getMaxEnergyReceived();
 	}
 
@@ -152,7 +152,7 @@ public class PipeItemsAdvancedWood extends APPipe implements IPowerReceptor {
 	}
 
 	@Override
-	public int getTextureIndex(ForgeDirection direction) {
+	public int getIconIndex(ForgeDirection direction) {
 		if (direction == ForgeDirection.UNKNOWN)
 			return 6;
 		else {

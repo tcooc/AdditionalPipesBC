@@ -1,0 +1,10 @@
+[{
+  "modid": "APUnofficial",
+  "name": "Additional Pipes",
+  "version": "@VERSION@",
+  "url": "https://github.com/gejzer/AdditionalPipesBC/",
+  "updateUrl": "",
+  "description": "Teleport, insertion, extraction, and many more new pipes.",
+  "credits": "Credits to Zeldo, DaStormBringer, Kyprus and gejzer for their work on the mod.",
+  "authors": [ "Zeldo", "DaStormBringer", "Kyprus", "gejzer" ]
+}]

@@ -37,14 +37,14 @@ public class GuiTeleportPipe extends GuiContainer {
 		super.initGui();
 		int x = (width - xSize) / 2, y = (height - ySize) / 2;
 		int bw = xSize - 22;
-		controlList.add(buttons[0] = new GuiButton(1, x + 10,              y + 52, bw / 6, 20, "-100"));
-		controlList.add(buttons[1] = new GuiButton(2, x + 12 + bw / 6,     y + 52, bw / 6, 20, "-10"));
-		controlList.add(buttons[2] = new GuiButton(3, x + 12 + bw * 2 / 6, y + 52, bw / 6, 20, "-1"));
-		controlList.add(buttons[3] = new GuiButton(4, x + 12 + bw * 3 / 6, y + 52, bw / 6, 20, "+1"));
-		controlList.add(buttons[4] = new GuiButton(5, x + 12 + bw * 4 / 6, y + 52, bw / 6, 20, "+10"));
-		controlList.add(buttons[5] = new GuiButton(6, x + 16 + bw * 5 / 6, y + 52, bw / 6, 20, "+100"));
-		controlList.add(buttons[6] = new GuiButton(7, x + 10,              y + 15, bw / 2, 20, "Send Only"));
-		controlList.add(buttons[7] = new GuiButton(8, x + 10 + bw * 3 / 6, y + 15, bw / 2, 20, "Private"));
+		buttonList.add(buttons[0] = new GuiButton(1, x + 10,              y + 52, bw / 6, 20, "-100"));
+		buttonList.add(buttons[1] = new GuiButton(2, x + 12 + bw / 6,     y + 52, bw / 6, 20, "-10"));
+		buttonList.add(buttons[2] = new GuiButton(3, x + 12 + bw * 2 / 6, y + 52, bw / 6, 20, "-1"));
+		buttonList.add(buttons[3] = new GuiButton(4, x + 12 + bw * 3 / 6, y + 52, bw / 6, 20, "+1"));
+		buttonList.add(buttons[4] = new GuiButton(5, x + 12 + bw * 4 / 6, y + 52, bw / 6, 20, "+10"));
+		buttonList.add(buttons[5] = new GuiButton(6, x + 16 + bw * 5 / 6, y + 52, bw / 6, 20, "+100"));
+		buttonList.add(buttons[6] = new GuiButton(7, x + 10,              y + 15, bw / 2, 20, "Send Only"));
+		buttonList.add(buttons[7] = new GuiButton(8, x + 10 + bw * 3 / 6, y + 15, bw / 2, 20, "Private"));
 	}
 
 	@Override
@@ -111,9 +111,9 @@ public class GuiTeleportPipe extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
-		int i = mc.renderEngine.getTexture(AdditionalPipes.TEXTURE_GUI_TELEPORT);
+		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(i);
+		mc.renderEngine.bindTexture(AdditionalPipes.TEXTURE_GUI_TELEPORT);
 		int j = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);

@@ -3,19 +3,13 @@ package buildcraft.additionalpipes.gates;
 import buildcraft.additionalpipes.AdditionalPipes;
 import buildcraft.additionalpipes.pipes.PipeItemsClosed;
 import buildcraft.api.gates.ITriggerParameter;
-import buildcraft.api.gates.Trigger;
 import buildcraft.transport.ITriggerPipe;
 import buildcraft.transport.Pipe;
 
-public class TriggerPipeClosed extends Trigger implements ITriggerPipe {
+public class TriggerPipeClosed extends APTrigger implements ITriggerPipe {
 
 	public TriggerPipeClosed(int id) {
 		super(id);
-	}
-
-	@Override
-	public String getTextureFile() {
-		return AdditionalPipes.TEXTURE_TRIGGERS;
 	}
 
 	@Override
@@ -32,6 +26,12 @@ public class TriggerPipeClosed extends Trigger implements ITriggerPipe {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int getIconIndex() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

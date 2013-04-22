@@ -2,16 +2,19 @@ package buildcraft.additionalpipes.chunkloader;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import buildcraft.additionalpipes.AdditionalPipes;
+import buildcraft.additionalpipes.Textures;
 
 public class BlockChunkLoader extends BlockContainer {
 
 	public BlockChunkLoader(int BlockID, int i) {
-		super(BlockID, i, Material.cloth);
-		setTextureFile(AdditionalPipes.TEXTURE_MASTER);
+		super(BlockID, Material.cloth);
+		//setTextureFile(AdditionalPipes.TEXTURE_MASTER);
 		setCreativeTab(CreativeTabs.tabRedstone);
 	}
 
@@ -28,7 +31,7 @@ public class BlockChunkLoader extends BlockContainer {
 	}
 
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
+	public TileEntity createTileEntity(World world, int meta) {
 		return new TileChunkLoader();
 	}
 
@@ -36,5 +39,14 @@ public class BlockChunkLoader extends BlockContainer {
 	public TileEntity createNewTileEntity(World world) {
 		return null;
 	}
-
+	@Override
+	public Icon getIcon(int par1, int par2)
+	{
+		return Textures.tetherTexture;
+	}
+	@Override
+	public void registerIcons(IconRegister par1IconRegister)
+	{
+		//let Texutre class do it work
+	}
 }

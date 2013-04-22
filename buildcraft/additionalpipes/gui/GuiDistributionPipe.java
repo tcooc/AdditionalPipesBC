@@ -43,29 +43,29 @@ public class GuiDistributionPipe extends GuiContainer {
 		int guiX = (width - xSize) / 2 + 30;
 		int guiY = (height - ySize) / 2 - 10;
 
-		controlList.add(buttons[0]  =  new GuiButton(1, guiX + 1,       guiY + 24, 20, 17, "-"));
-		controlList.add(buttons[1]  =  new GuiButton(2, guiX + 3 + 20,  guiY + 24, 30, 17, "0"));
-		controlList.add(buttons[2]  =  new GuiButton(3, guiX + 5 + 50,  guiY + 24, 20, 17, "+"));
+		buttonList.add(buttons[0]  =  new GuiButton(1, guiX + 1,       guiY + 24, 20, 17, "-"));
+		buttonList.add(buttons[1]  =  new GuiButton(2, guiX + 3 + 20,  guiY + 24, 30, 17, "0"));
+		buttonList.add(buttons[2]  =  new GuiButton(3, guiX + 5 + 50,  guiY + 24, 20, 17, "+"));
 
-		controlList.add(buttons[3]  =  new GuiButton(4, guiX + 1,       guiY + 25 + 17, 20, 17, "-"));
-		controlList.add(buttons[4]  =  new GuiButton(5, guiX + 3 + 20,  guiY + 25 + 17, 30, 17, "0"));
-		controlList.add(buttons[5]  =  new GuiButton(6, guiX + 5 + 50,  guiY + 25 + 17, 20, 17, "+"));
+		buttonList.add(buttons[3]  =  new GuiButton(4, guiX + 1,       guiY + 25 + 17, 20, 17, "-"));
+		buttonList.add(buttons[4]  =  new GuiButton(5, guiX + 3 + 20,  guiY + 25 + 17, 30, 17, "0"));
+		buttonList.add(buttons[5]  =  new GuiButton(6, guiX + 5 + 50,  guiY + 25 + 17, 20, 17, "+"));
 
-		controlList.add(buttons[6]  =  new GuiButton(7, guiX + 1,       guiY + 26 + 17 * 2, 20, 17, "-"));
-		controlList.add(buttons[7]  =  new GuiButton(8, guiX + 3 + 20,  guiY + 26 + 17 * 2, 30, 17, "0"));
-		controlList.add(buttons[8]  =  new GuiButton(9, guiX + 5 + 50,  guiY + 26 + 17 * 2, 20, 17, "+"));
+		buttonList.add(buttons[6]  =  new GuiButton(7, guiX + 1,       guiY + 26 + 17 * 2, 20, 17, "-"));
+		buttonList.add(buttons[7]  =  new GuiButton(8, guiX + 3 + 20,  guiY + 26 + 17 * 2, 30, 17, "0"));
+		buttonList.add(buttons[8]  =  new GuiButton(9, guiX + 5 + 50,  guiY + 26 + 17 * 2, 20, 17, "+"));
 
-		controlList.add(buttons[9]  =  new GuiButton(10, guiX + 1,      guiY + 27 + 17 * 3, 20, 17, "-"));
-		controlList.add(buttons[10] =  new GuiButton(11, guiX + 3 + 20, guiY + 27 + 17 * 3, 30, 17, "0"));
-		controlList.add(buttons[11] =  new GuiButton(12, guiX + 5 + 50, guiY + 27 + 17 * 3, 20, 17, "+"));
+		buttonList.add(buttons[9]  =  new GuiButton(10, guiX + 1,      guiY + 27 + 17 * 3, 20, 17, "-"));
+		buttonList.add(buttons[10] =  new GuiButton(11, guiX + 3 + 20, guiY + 27 + 17 * 3, 30, 17, "0"));
+		buttonList.add(buttons[11] =  new GuiButton(12, guiX + 5 + 50, guiY + 27 + 17 * 3, 20, 17, "+"));
 
-		controlList.add(buttons[12] =  new GuiButton(13, guiX + 1,      guiY + 28 + 17 * 4, 20, 17, "-"));
-		controlList.add(buttons[13] =  new GuiButton(14, guiX + 3 + 20, guiY + 28 + 17 * 4, 30, 17, "0"));
-		controlList.add(buttons[14] =  new GuiButton(15, guiX + 5 + 50, guiY + 28 + 17 * 4, 20, 17, "+"));
+		buttonList.add(buttons[12] =  new GuiButton(13, guiX + 1,      guiY + 28 + 17 * 4, 20, 17, "-"));
+		buttonList.add(buttons[13] =  new GuiButton(14, guiX + 3 + 20, guiY + 28 + 17 * 4, 30, 17, "0"));
+		buttonList.add(buttons[14] =  new GuiButton(15, guiX + 5 + 50, guiY + 28 + 17 * 4, 20, 17, "+"));
 
-		controlList.add(buttons[15] =  new GuiButton(16, guiX + 1,      guiY + 29 + 17 * 5, 20, 17, "-"));
-		controlList.add(buttons[16] =  new GuiButton(17, guiX + 3 + 20, guiY + 29 + 17 * 5, 30, 17, "0"));
-		controlList.add(buttons[17] =  new GuiButton(18, guiX + 5 + 50, guiY + 29 + 17 * 5, 20, 17, "+"));
+		buttonList.add(buttons[15] =  new GuiButton(16, guiX + 1,      guiY + 29 + 17 * 5, 20, 17, "-"));
+		buttonList.add(buttons[16] =  new GuiButton(17, guiX + 3 + 20, guiY + 29 + 17 * 5, 30, 17, "0"));
+		buttonList.add(buttons[17] =  new GuiButton(18, guiX + 5 + 50, guiY + 29 + 17 * 5, 20, 17, "+"));
 
 	}
 	@Override
@@ -145,9 +145,9 @@ public class GuiDistributionPipe extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
-		int i = mc.renderEngine.getTexture(AdditionalPipes.TEXTURE_GUI_DISTRIBUTION);
+		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(i);
+		mc.renderEngine.bindTexture(AdditionalPipes.TEXTURE_GUI_DISTRIBUTION);
 		int j = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);

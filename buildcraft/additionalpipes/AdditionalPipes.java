@@ -1,6 +1,7 @@
 package buildcraft.additionalpipes;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
@@ -10,13 +11,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Property;
+import net.minecraftforge.event.ForgeSubscribe;
 import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftSilicon;
 import buildcraft.BuildCraftTransport;
@@ -99,14 +105,12 @@ public class AdditionalPipes {
 	private static @interface CfgBool {}
 
 	//textures
-	public static final String BASE_PATH = "/buildcraft/additionalpipes";
-	public static final String TEXTURE_PATH = BASE_PATH + "/sprites";
-	public static final String TEXTURE_MASTER = TEXTURE_PATH + "/textures.png";
-	public static final String TEXTURE_TRIGGERS = TEXTURE_PATH + "/triggers.png";
+	public static final String BASE_PATH = "/mods/additionalpipes";
+	public static final String TEXTURE_PATH = BASE_PATH + "/textures";
 
-	public static final String TEXTURE_GUI_TELEPORT = TEXTURE_PATH + "/blankSmallGui.png";
-	public static final String TEXTURE_GUI_ADVANCEDWOOD = TEXTURE_PATH + "/advancedWoodGui.png";
-	public static final String TEXTURE_GUI_DISTRIBUTION = TEXTURE_PATH + "/distributionGui.png";
+	public static final String TEXTURE_GUI_TELEPORT = TEXTURE_PATH + "/gui/blankSmallGui.png";
+	public static final String TEXTURE_GUI_ADVANCEDWOOD = TEXTURE_PATH + "/gui/advancedWoodGui.png";
+	public static final String TEXTURE_GUI_DISTRIBUTION = TEXTURE_PATH + "/gui/distributionGui.png";
 
 	//chunk load boundaries
 	public ChunkLoadViewDataProxy chunkLoadViewer;
@@ -193,6 +197,7 @@ public class AdditionalPipes {
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Failed to load default localization.", e);
 		}
+		MinecraftForge.EVENT_BUS.register(this);
 	}
 
 	@Init
@@ -238,7 +243,7 @@ public class AdditionalPipes {
 		//ChunkLoader
 		if(chunkLoaderId != 0) {
 			blockChunkLoader = new BlockChunkLoader(chunkLoaderId > 0 ? chunkLoaderId : -chunkLoaderId, 32);
-			blockChunkLoader.setBlockName("TeleportTether");
+			blockChunkLoader.setUnlocalizedName("TeleportTether");
 			GameRegistry.registerBlock(blockChunkLoader, ItemBlock.class, "chunkLoader");
 			GameRegistry.registerTileEntity(TileChunkLoader.class, "TeleportTether");
 			if (chunkLoaderId > 0) {
@@ -271,14 +276,14 @@ public class AdditionalPipes {
 					if(annotation != null) {
 						int id = field.getInt(this);
 						if(annotation.block()){
-							if(config.categories.get(Configuration.CATEGORY_BLOCK).containsKey(field.getName())) {
+							if(config.getCategory(Configuration.CATEGORY_BLOCK).containsKey(field.getName())) {
 								id = config.get(Configuration.CATEGORY_BLOCK, field.getName(), id).getInt(id);
 								if(id > 0) id = config.getBlock(field.getName(), id).getInt(id);
 							} else {
 								id = config.getBlock(field.getName(), id).getInt(id);
 							}
 						}else{
-							if(config.categories.get(Configuration.CATEGORY_ITEM).containsKey(field.getName())) {
+							if(config.getCategory(Configuration.CATEGORY_ITEM).containsKey(field.getName())) {
 								id = config.get(Configuration.CATEGORY_ITEM, field.getName(), id).getInt(id);
 								if(id > 0) id = config.getItem(field.getName(), id).getInt(id);
 							} else {
@@ -411,7 +416,7 @@ public class AdditionalPipes {
 
 	private static Item createPipe(int id, Class<? extends Pipe> clas) {
 		Item res = BlockGenericPipe.registerPipe(id, clas);
-		res.setItemName(clas.getSimpleName());
+		res.setUnlocalizedName(clas.getSimpleName());
 		proxy.registerPipeRendering(res);
 		return res;
 	}
@@ -431,7 +436,7 @@ public class AdditionalPipes {
 
 	private Item createPipeSpecial(int id, Class<? extends Pipe> clas) {
 		ItemPipe item = new ItemPipeAP(id);
-		item.setItemName(clas.getSimpleName());
+		item.setUnlocalizedName(clas.getSimpleName());
 		proxy.registerPipeRendering(item);
 
 		BlockGenericPipe.pipes.put(item.itemID, clas);
@@ -439,8 +444,10 @@ public class AdditionalPipes {
 		try {
 			Pipe dummyPipe = clas.getConstructor(int.class).newInstance(id);
 			if (dummyPipe != null){
-				item.setTextureFile(dummyPipe.getTextureFile());
-				item.setTextureIndex(dummyPipe.getTextureIndexForItem());
+				item.setPipesIcons(dummyPipe.getIconProvider());
+				//TODO look around
+				item.setPipeIconIndex(dummyPipe.getIconIndex(ForgeDirection.VALID_DIRECTIONS[0]));
+				//item.setTextureIndex(dummyPipe.getTextureIndexForItem());
 			}
 		} catch (Exception e) {
 			logger.log(Level.SEVERE, "Error during special pipe creation.", e);
@@ -456,5 +463,10 @@ public class AdditionalPipes {
 			return true;
 		}
 		return false;
+	}
+	@ForgeSubscribe
+	@SideOnly(Side.CLIENT)
+	public void textureHook(TextureStitchEvent.Pre event) throws IOException{
+		Textures.registerIcons(event.map);
 	}
 }

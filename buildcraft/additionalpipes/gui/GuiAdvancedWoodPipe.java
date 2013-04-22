@@ -51,7 +51,7 @@ public class GuiAdvancedWoodPipe extends GuiContainer {
 		int guiX = (width - xSize) / 2;
 		int guiY = (height - ySize) / 2;
 		buttons[0] =  new GuiButton(1, guiX + 8, guiY + 40, 140, 20, "These items are required");
-		controlList.add(buttons[0]);
+		buttonList.add(buttons[0]);
 	}
 
 	@Override
@@ -80,10 +80,9 @@ public class GuiAdvancedWoodPipe extends GuiContainer {
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		int i1 = mc.renderEngine
-				.getTexture(AdditionalPipes.TEXTURE_GUI_ADVANCEDWOOD);
+		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(i1);
+		mc.renderEngine.bindTexture(AdditionalPipes.TEXTURE_GUI_ADVANCEDWOOD);
 		int j1 = (width - xSize) / 2;
 		int k = (height - ySize) / 2;
 		drawTexturedModalRect(j1, k, 0, 0, xSize, ySize);

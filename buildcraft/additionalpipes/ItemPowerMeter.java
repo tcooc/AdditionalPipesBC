@@ -15,7 +15,7 @@ public class ItemPowerMeter extends Item {
 	public ItemPowerMeter(int id) {
 		super(id);
 		setMaxStackSize(1);
-		setTextureFile(AdditionalPipes.TEXTURE_MASTER);
+		//setTextureFile(AdditionalPipes.TEXTURE_MASTER);
 		setCreativeTab(CreativeTabs.tabTools);
 	}
 
@@ -34,7 +34,7 @@ public class ItemPowerMeter extends Item {
 			}
 
 			player.sendChatToPlayer(String.format("R:%d L:%d m:%d M:%d A:%d S:%d",
-					receptor.powerRequest(),
+					receptor.powerRequest(ForgeDirection.VALID_DIRECTIONS[side]),
 					provider.getLatency(),
 					provider.getMinEnergyReceived(),
 					provider.getMaxEnergyReceived(),

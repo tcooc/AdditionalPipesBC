@@ -154,7 +154,7 @@ public class PipePowerTeleport extends PipeTeleport implements IPipeTransportPow
 	}
 
 	@Override
-	public int getTextureIndex(ForgeDirection direction) {
+	public int getIconIndex(ForgeDirection direction) {
 		return 3;
 	}
 

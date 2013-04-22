@@ -24,12 +24,6 @@ public class MutiPlayerProxyClient extends MutiPlayerProxy {
 	}
 
 	@Override
-	public void registerRendering() {
-		MinecraftForgeClient.preloadTexture(AdditionalPipes.TEXTURE_MASTER);
-		MinecraftForgeClient.preloadTexture(AdditionalPipes.TEXTURE_TRIGGERS);
-	}
-
-	@Override
 	public void registerPipeRendering(Item res){
 		MinecraftForgeClient.registerItemRenderer(res.itemID, TransportProxyClient.pipeItemRenderer);
 	}

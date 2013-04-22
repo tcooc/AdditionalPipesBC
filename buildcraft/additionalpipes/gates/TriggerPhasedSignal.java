@@ -4,23 +4,17 @@ import buildcraft.additionalpipes.AdditionalPipes;
 import buildcraft.additionalpipes.pipes.PipeTeleport;
 import buildcraft.additionalpipes.pipes.TeleportManager;
 import buildcraft.api.gates.ITriggerParameter;
-import buildcraft.api.gates.Trigger;
 import buildcraft.api.transport.IPipe;
 import buildcraft.transport.ITriggerPipe;
 import buildcraft.transport.Pipe;
 
-public class TriggerPhasedSignal extends Trigger implements ITriggerPipe {
+public class TriggerPhasedSignal extends APTrigger implements ITriggerPipe {
 
 	private IPipe.WireColor colour;
 
 	public TriggerPhasedSignal(int id, IPipe.WireColor colour) {
 		super(id);
 		this.colour = colour;
-	}
-
-	@Override
-	public String getTextureFile() {
-		return AdditionalPipes.TEXTURE_TRIGGERS;
 	}
 
 	@Override
@@ -39,7 +33,7 @@ public class TriggerPhasedSignal extends Trigger implements ITriggerPipe {
 	}
 
 	@Override
-	public int getIndexInTexture() {
+	public int getIconIndex() {
 		switch (colour) {
 		case Red:
 			return 2;

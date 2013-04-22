@@ -82,7 +82,7 @@ public class PipeItemsClosed extends APPipe implements IInventory, IItemTravelin
 	}
 
 	@Override
-	public int getTextureIndex(ForgeDirection direction) {
+	public int getIconIndex(ForgeDirection direction) {
 		return 18 + (getStackInSlot(0) == null ? 0 : 1);
 	}
 
@@ -142,6 +142,17 @@ public class PipeItemsClosed extends APPipe implements IInventory, IItemTravelin
 
 	@Override
 	public void closeChest() {
+	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
+		return true;
 	}
 
 }

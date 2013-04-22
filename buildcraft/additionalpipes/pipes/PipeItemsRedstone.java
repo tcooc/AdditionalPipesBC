@@ -64,37 +64,37 @@ public class PipeItemsRedstone extends APPipe implements IPipeTransportItemsHook
 	}
 
 	@Override
-	public boolean isPoweringTo(int l) {
+	public int isPoweringTo(int l) {
 		//System.out.println("RedStoneIsPoweringTo");
 		if (((PipeTransportItems)transport).travelingEntities.size() == 0) {
 			isPowering = false;
-			return false;
+			return 0;
 		}
 
 		isPowering = true;
 		int i1 = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
 
 		if(i1 == 5 && l == 1) {
-			return false;
+			return 0;
 		}
 
 		if(i1 == 3 && l == 3) {
-			return false;
+			return 0;
 		}
 
 		if(i1 == 4 && l == 2) {
-			return false;
+			return 0;
 		}
 
 		if(i1 == 1 && l == 5) {
-			return false;
+			return 0;
 		}
 
-		return i1 != 2 || l != 4;
+		return (i1 != 2 || l != 4)?15:0;
 	}
 
 	@Override
-	public boolean isIndirectlyPoweringTo(int l) {
+	public int isIndirectlyPoweringTo(int l) {
 		return isPoweringTo(l);
 	}
 
@@ -103,7 +103,7 @@ public class PipeItemsRedstone extends APPipe implements IPipeTransportItemsHook
 	}
 
 	@Override
-	public int getTextureIndex(ForgeDirection direction) {
+	public int getIconIndex(ForgeDirection direction) {
 		return isPowering ? 5 : 4;
 	}
 

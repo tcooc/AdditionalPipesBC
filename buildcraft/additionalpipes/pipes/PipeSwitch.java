@@ -14,7 +14,7 @@ public class PipeSwitch extends APPipe {
 	}
 
 	@Override
-	public int getTextureIndex(ForgeDirection direction) {
+	public int getIconIndex(ForgeDirection direction) {
 		return textureIndex + (logic.isPipeConnected(null) ? 0 : 1);
 	}
 
