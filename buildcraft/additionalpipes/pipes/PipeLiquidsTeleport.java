@@ -56,8 +56,10 @@ public class PipeLiquidsTeleport extends PipeTeleport implements IPipeTransportL
 
 		for (ForgeDirection o : ForgeDirection.VALID_DIRECTIONS) {
 			if (pipe.logic.outputOpen(o)) {
-				ITankContainer te = (ITankContainer) pipe.container.getTile(o);
-				result.add(te);
+				if(pipe.container.getTile(o) instanceof ITankContainer){
+					ITankContainer te = (ITankContainer) pipe.container.getTile(o);
+					result.add(te);
+				}
 			}
 		}
 
