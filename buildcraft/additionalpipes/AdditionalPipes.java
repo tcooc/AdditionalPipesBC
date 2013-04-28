@@ -103,7 +103,7 @@ public class AdditionalPipes {
 	@Retention(RetentionPolicy.RUNTIME)
 	private static @interface CfgBool {}
 
-	public static final String LOC_PATH = "/buildcraft/additionalpipes";
+	public static final String LOC_PATH = "/lang/additionalpipes/";
 	//textures
 	public static final String BASE_PATH = "/mods/additionalpipes";
 	public static final String TEXTURE_PATH = BASE_PATH + "/textures";
@@ -188,15 +188,8 @@ public class AdditionalPipes {
 		configFile = event.getSuggestedConfigurationFile();
 		loadConfigs(false);
 
-		Properties en_US = null;
-		Localization.addLocalization(LOC_PATH + "/lang/", "en_US");
-		try {
-			en_US = new Properties();
-			en_US.load(AdditionalPipes.class.getResourceAsStream((LOC_PATH + "/lang/en_US.properties")));
-			LanguageRegistry.instance().addStringLocalization(en_US);
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Failed to load default localization.", e);
-		}
+		Localization.addLocalization(LOC_PATH, "en_US");
+
 		MinecraftForge.EVENT_BUS.register(this);
 	}
 

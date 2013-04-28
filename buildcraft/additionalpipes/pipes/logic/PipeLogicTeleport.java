@@ -15,27 +15,35 @@ import buildcraft.transport.Pipe;
 import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.pipes.PipeLogic;
 
-public class PipeLogicTeleport extends PipeLogic {
+public class PipeLogicTeleport extends PipeLogic
+{
 
-	private Pipe pipe;
-
-	private boolean[] phasedBroadcastSignal = new boolean[4];
-
-	private int frequency = 0;
 	public boolean canReceive = false;
 	//public boolean canSend = true;
 	public String owner = "";
 	public boolean isPublic = false;
+	private Pipe pipe;
+	private boolean[] phasedBroadcastSignal = new boolean[4];
+	private int frequency = 0;
+
+	public static boolean canPlayerModifyPipe(EntityPlayer player, PipeLogicTeleport logic)
+	{
+		if (logic.isPublic || logic.owner.equals(player.username) || player.capabilities.isCreativeMode)
+			return true;
+		return false;
+	}
 
 	@Override
-	public void setTile(TileGenericPipe tile) {
+	public void setTile(TileGenericPipe tile)
+	{
 		super.setTile(tile);
 		pipe = container.pipe;
 	}
 
 	@Override
-	public boolean blockActivated(EntityPlayer player) {
-		if(!AdditionalPipes.proxy.isServer(player.worldObj)) return true;
+	public boolean blockActivated(EntityPlayer player)
+	{
+		if (!AdditionalPipes.proxy.isServer(player.worldObj)) return true;
 		if (owner == null || "".equalsIgnoreCase(owner)) {
 			owner = player.username;
 		}
@@ -48,39 +56,44 @@ public class PipeLogicTeleport extends PipeLogic {
 	}
 
 	@Override
-	public void updateEntity() {
+	public void updateEntity()
+	{
 		super.updateEntity();
 		updatePhasedSignals();
 	}
 
-	public void setFrequency(int freq) {
+	public int getFrequency()
+	{
+		return frequency;
+	}
+
+	public void setFrequency(int freq)
+	{
 		removePhasedSignals();
 		frequency = freq;
 		phasedBroadcastSignal = new boolean[4];
 		updatePhasedSignals();
 	}
 
-	public int getFrequency() {
-		return frequency;
-	}
-
-	public void removePhasedSignals() {
-		for(int i = 0; i < phasedBroadcastSignal.length; i++) {
-			if(phasedBroadcastSignal[i]) {
+	public void removePhasedSignals()
+	{
+		for (int i = 0; i < phasedBroadcastSignal.length; i++) {
+			if (phasedBroadcastSignal[i]) {
 				TeleportManager.instance.phasedSignals.get(frequency)[i]--;
 				AdditionalPipes.instance.logger.info("Removing signal " + frequency + " : " + i);
 			}
 		}
 	}
 
-	public void updatePhasedSignals() {
-		if(!TeleportManager.instance.phasedSignals.containsKey(frequency)) {
+	public void updatePhasedSignals()
+	{
+		if (!TeleportManager.instance.phasedSignals.containsKey(frequency)) {
 			Integer[] signals = new Integer[4];
 			Arrays.fill(signals, 0);
 			TeleportManager.instance.phasedSignals.put(frequency, signals);
 		}
-		for(int i = 0; i < pipe.broadcastSignal.length; i++) {
-			if(phasedBroadcastSignal[i] != pipe.broadcastSignal[i]) {
+		for (int i = 0; i < pipe.broadcastSignal.length; i++) {
+			if (phasedBroadcastSignal[i] != pipe.broadcastSignal[i]) {
 				TeleportManager.instance.phasedSignals.get(frequency)[i] += (pipe.broadcastSignal[i] ? 1 : -1);
 				AdditionalPipes.instance.logger.info((pipe.broadcastSignal[i] ? "Adding signal " : "Removing signal ") + frequency + " : " + i);
 				phasedBroadcastSignal[i] = pipe.broadcastSignal[i];
@@ -89,28 +102,27 @@ public class PipeLogicTeleport extends PipeLogic {
 	}
 
 	@Override
-	public boolean isPipeConnected(TileEntity tile) {
-		Pipe pipe = null;
+	public boolean canPipeConnect(TileEntity tile, ForgeDirection side)
+	{
+
 		if (tile instanceof TileGenericPipe) {
-			pipe = ((TileGenericPipe) tile).pipe;
-		}
-		if (BuildCraftTransport.alwaysConnectPipes) {
-			return super.isPipeConnected(tile);
-		} else {
-			if(pipe != null && this.getClass().equals(pipe.logic.getClass())) {
+			Pipe pipe = ((TileGenericPipe) tile).pipe;
+			if (pipe != null && this.getClass().equals(pipe.logic.getClass())) {
 				return false;
 			}
-			return pipe != null;
 		}
+		return true;
 	}
 
 	@Override
-	public boolean outputOpen(ForgeDirection to) {
-		return isPipeConnected(container.getTile(to));
+	public boolean outputOpen(ForgeDirection to)
+	{
+		return canPipeConnect(container.getTile(to), to);
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound) {
+	public void writeToNBT(NBTTagCompound nbttagcompound)
+	{
 		super.writeToNBT(nbttagcompound);
 
 		nbttagcompound.setInteger("freq", frequency);
@@ -120,19 +132,14 @@ public class PipeLogicTeleport extends PipeLogic {
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound) {
+	public void readFromNBT(NBTTagCompound nbttagcompound)
+	{
 		super.readFromNBT(nbttagcompound);
 
 		frequency = nbttagcompound.getInteger("freq");
 		canReceive = nbttagcompound.getBoolean("canReceive");
 		owner = nbttagcompound.getString("owner");
 		isPublic = nbttagcompound.getBoolean("isPublic");
-	}
-
-	public static boolean canPlayerModifyPipe(EntityPlayer player, PipeLogicTeleport logic) {
-		if(logic.isPublic || logic.owner.equals(player.username) || player.capabilities.isCreativeMode)
-			return true;
-		return false;
 	}
 
 }
