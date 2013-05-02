@@ -89,24 +89,22 @@ public class PipeLogicTeleport extends PipeLogic {
 	}
 
 	@Override
-	public boolean isPipeConnected(TileEntity tile) {
+	public boolean canPipeConnect(TileEntity tile, ForgeDirection side) {
 		Pipe pipe = null;
 		if (tile instanceof TileGenericPipe) {
 			pipe = ((TileGenericPipe) tile).pipe;
 		}
-		if (BuildCraftTransport.alwaysConnectPipes) {
-			return super.isPipeConnected(tile);
-		} else {
+		
 			if(pipe != null && this.getClass().equals(pipe.logic.getClass())) {
 				return false;
 			}
 			return pipe != null;
-		}
+		
 	}
 
 	@Override
 	public boolean outputOpen(ForgeDirection to) {
-		return isPipeConnected(container.getTile(to));
+		return canPipeConnect(container,to);
 	}
 
 	@Override

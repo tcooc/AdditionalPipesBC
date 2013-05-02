@@ -25,7 +25,7 @@ public class PipeLogicSwitch extends PipeLogic {
 	}
 
 	@Override
-	public boolean isPipeConnected(TileEntity tile) {
+	public boolean canPipeConnect(TileEntity tile, ForgeDirection side) {
 		return worldObj != null && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord);
 	}
 
