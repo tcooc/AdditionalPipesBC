@@ -41,6 +41,17 @@ public class PipeItemsTeleport extends PipeTeleport implements IPipeTransportIte
 
 	@Override
 	public void entityEntered(IPipedItem item, ForgeDirection orientation) {
+		// -- BEGIN EDIT: Issue #59 -- //
+
+		//Not sure if it was item or direction that was null
+		// in the referenced issue but it doesn't hurt to
+		// check both
+
+		if(item == null) {
+			return;
+		}
+		// -- END EDIT -- //
+
 		if(!AdditionalPipes.proxy.isServer(worldObj)) {
 			return;
 		}
@@ -66,6 +77,13 @@ public class PipeItemsTeleport extends PipeTeleport implements IPipeTransportIte
 
 		ForgeDirection newOrientation = outputOrientations.get(rand.nextInt(outputOrientations.size()));
 		TileGenericPipe destination = (TileGenericPipe) otherPipe.container.getTile(newOrientation);
+
+		// -- BEGIN EDIT: Issue #59 -- //
+		if(destination == null) {
+			return;
+		}
+		// -- END EDIT -- //
+
 		//item.setContainer(destination);
 		item.setPosition(destination.xCoord + 0.5, destination.yCoord, destination.zCoord + 0.5);
 		//transport.scheduleRemoval(item);
