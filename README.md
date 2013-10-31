@@ -5,20 +5,20 @@
 Windows
 
     REM (optional) SET AP_VERSION=... and BC_VERSION=... to set versions
-    git clone https://github.com/tcooc/AdditionalPipesBC.git    
+    git clone https://github.com/PontiacFirebird/AdditionalPipesBC.git    
     cd AdditionalPipesBC
     build.bat
 
 Linux
 
     # (optional) export AP_VERSION=... and export BC_VERSION=... to set versions
-    git clone https://github.com/tcooc/AdditionalPipesBC.git    
+    git clone https://github.com/PontiacFirebird/AdditionalPipesBC.git    
     cd AdditionalPipesBC
     ./build.sh
 
 Compiled binaries can be found in `BuildCraft/bin/ap`.
 
-### Download: [latest releases](https://github.com/tcooc/AdditionalPipesBC/releases), ([BuildCraft 4.0.2 and earlier](https://www.dropbox.com/sh/0hc1l4bn4dvjlni/t82-3--LmE)) ####
+### Download: [latest releases](https://github.com/PontiacFirebird/AdditionalPipesBC/releases), ([BuildCraft 4.0.2 and earlier](https://www.dropbox.com/sh/0hc1l4bn4dvjlni/t82-3--LmE)) ####
 To install, place in the standard minecraft/mods folder.
 REQUIRE Forge 650+, BC 3.5.0, See also Logistics Pipes for 1.5.1
 ### Credits to Zeldo, DaStormBringer, Kyprus, tcooc, gejzer, PontiacFirebird for their work on the mod.
