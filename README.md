@@ -5,14 +5,14 @@
 Windows
 
     REM (optional) SET AP_VERSION=... and BC_VERSION=... to set versions
-    git clone https://github.com/PontiacFirebird/AdditionalPipesBC.git    
+    git clone https://github.com/tcooc/AdditionalPipesBC.git    
     cd AdditionalPipesBC
     build.bat
 
 Linux
 
     # (optional) export AP_VERSION=... and export BC_VERSION=... to set versions
-    git clone https://github.com/PontiacFirebird/AdditionalPipesBC.git    
+    git clone https://github.com/tcooc/AdditionalPipesBC.git    
     cd AdditionalPipesBC
     ./build.sh
 
