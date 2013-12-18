@@ -1,26 +1,26 @@
-## Update of Additional Pipes for BC3+ and Minecraft 1.5+
+## Update of Additional Pipes for BC4.2.1+ and Minecraft 1.6.4
 
 ### Cloning and Compiling ###
 
 Windows
 
     REM (optional) SET AP_VERSION=... and BC_VERSION=... to set versions
-    git clone https://github.com/tcooc/AdditionalPipesBC.git    
+    git clone https://github.com/arasium/AdditionalPipesBC.git    
     cd AdditionalPipesBC
     build.bat
 
 Linux
 
     # (optional) export AP_VERSION=... and export BC_VERSION=... to set versions
-    git clone https://github.com/tcooc/AdditionalPipesBC.git    
+    git clone https://github.com/arasium/AdditionalPipesBC.git    
     cd AdditionalPipesBC
     ./build.sh
 
 Compiled binaries can be found in `BuildCraft/bin/ap`.
 
-### Download: [latest releases](https://github.com/tcooc/AdditionalPipesBC/releases), ([BuildCraft 4.0.2 and earlier](https://www.dropbox.com/sh/0hc1l4bn4dvjlni/t82-3--LmE)) ####
+### Download: [latest releases](https://github.com/arasium/AdditionalPipesBC/releases), ([BuildCraft 4.2.1](http://minecraft.curseforge.com/mc-mods/buildcraft/files/10-build-craft-4-2-1/)) ####
 To install, place in the standard minecraft/mods folder.
-REQUIRE Forge 650+, BC 3.5.0, See also Logistics Pipes for 1.5.1
+REQUIRE Forge 953+, BC 4.2.1, See also Logistics Pipes for 1.5.1
 ### Credits to Zeldo, DaStormBringer, Kyprus, tcooc, gejzer for their work on the mod.
 
 1.2.5 Thread: http://www.minecraftforum.net/topic/856360-125bc2214-bc315rev213rev310-additional-pipes-for-buildcraft-teleport-pipes/

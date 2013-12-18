@@ -75,7 +75,7 @@ public class GuiTeleportPipe extends GuiBuildCraft {
 	private final GuiButton[] buttons = new GuiButton[8];
 
 	public GuiTeleportPipe(EntityPlayer player, PipeTeleport pipe) {
-		super(new ContainerTeleportPipe(player, pipe), null);
+		super(new ContainerTeleportPipe(player, pipe), null, Textures.GUI_TELEPORT);
 		this.pipe = pipe;
 		container = (ContainerTeleportPipe) inventorySlots;
 		xSize = 228;
@@ -170,15 +170,6 @@ public class GuiTeleportPipe extends GuiBuildCraft {
 		packet.write(state);
 		packet.write((byte) (isPublic ? 1 : 0));
 		PacketDispatcher.sendPacketToServer(packet.makePacket());
-	}
-
-	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int x, int y) {
-		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture(Textures.GUI_TELEPORT);
-		int j = (width - xSize) / 2;
-		int k = (height - ySize) / 2;
-		drawTexturedModalRect(j, k, 0, 0, xSize, ySize);
 	}
 
 	@Override

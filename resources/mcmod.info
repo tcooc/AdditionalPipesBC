@@ -2,7 +2,7 @@
   "modid": "APUnofficial",
   "name": "Additional Pipes",
   "version": "@AP_VERSION@",
-  "url": "https://github.com/tcooc/AdditionalPipesBC/",
+  "url": "https://github.com/arasium/AdditionalPipesBC/",
   "updateUrl": "",
   "description": "Teleport, insertion, extraction, and other pipes.",
   "credits": "Credits to Zeldo, DaStormBringer, and Kyprus.",

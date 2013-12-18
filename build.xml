@@ -9,7 +9,7 @@
 
 	<!-- build BuildCraft -->
 	<target name="buildcraft">
-		<ant antfile="BuildCraft/build.xml" useNativeBasedir="true" inheritAll="false" />
+		<ant antfile="BuildCraft/build-patched.xml" useNativeBasedir="true" inheritAll="false" />
 	</target>
 
 	<target name="clean">

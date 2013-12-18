@@ -18,9 +18,10 @@ import buildcraft.transport.IPipeTransportItemsHook;
 import buildcraft.transport.PipeTransportItems;
 import buildcraft.transport.TileGenericPipe;
 import buildcraft.transport.TravelingItem;
+import buildcraft.transport.pipes.events.PipeEventItem;
 import buildcraft.transport.utils.TransportUtils;
 
-public class PipeItemsTeleport extends PipeTeleport implements IPipeTransportItemsHook {
+public class PipeItemsTeleport extends PipeTeleport {
 	private static final int ICON = 0;
 
 	private final PipeTransportItems transport;
@@ -29,22 +30,13 @@ public class PipeItemsTeleport extends PipeTeleport implements IPipeTransportIte
 		super(new PipeTransportItems(), itemID);
 		transport = (PipeTransportItems) super.transport;
 	}
-
-	@Override
-	public void readjustSpeed(TravelingItem item) {
-		transport.defaultReajustSpeed(item);
-	}
-
-	@Override
-	public LinkedList<ForgeDirection> filterPossibleMovements(LinkedList<ForgeDirection> possibleOrientations, Position pos, TravelingItem item) {
-		return possibleOrientations;
-	}
-
-	@Override
-	public void entityEntered(TravelingItem item, ForgeDirection orientation) {
-		if(!AdditionalPipes.proxy.isServer(getWorld())) {
+	
+	public void eventHandler(PipeEventItem.Entered event)
+	{
+		/*if(!AdditionalPipes.proxy.isServer(getWorld())) {
 			return;
-		}
+		}*/
+		
 		List<PipeTeleport> connectedTeleportPipes = TeleportManager.instance.getConnectedPipes(this, false);
 		// no teleport pipes connected, use default
 		if(connectedTeleportPipes.size() <= 0 || (state & 0x1) == 0) {
@@ -71,11 +63,15 @@ public class PipeItemsTeleport extends PipeTeleport implements IPipeTransportIte
 		if(destination == null) {
 			return;
 		}
+		
+		Position insertPoint = new Position(destination.xCoord + 0.5, destination.yCoord + TransportUtils.getPipeFloorOf(event.item.getItemStack()), destination.zCoord + 0.5, newOrientation.getOpposite());
+		insertPoint.moveForwards(0.5);
+		event.item.setPosition(insertPoint.x, insertPoint.y, insertPoint.z);
+		
+		((PipeTransportItems) destination.pipe.transport).injectItem(event.item, newOrientation);
 
-		item.setPosition(container.xCoord + 0.5, container.yCoord + TransportUtils.getPipeFloorOf(item.getItemStack()), container.zCoord + 0.5);
-		((PipeTransportItems) destination.pipe.transport).injectItem(item, newOrientation);
-
-		AdditionalPipes.instance.logger.info(item + " from " + getPosition() + " to " + otherPipe.getPosition() + " " + newOrientation);
+		AdditionalPipes.instance.logger.info(event.item + " from " + getPosition() + " to " + otherPipe.getPosition() + " " + newOrientation);
+		event.cancelled = true;
 	}
 
 	@Override
