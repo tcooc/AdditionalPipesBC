@@ -9,6 +9,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 import org.lwjgl.opengl.GL11;
 
+import buildcraft.additionalpipes.gui.components.GuiButtonOnOff;
 import buildcraft.additionalpipes.network.PacketHandler;
 import buildcraft.additionalpipes.network.message.MessageJeweledPipeOptionsServer;
 import buildcraft.additionalpipes.pipes.PipeItemsJeweled;

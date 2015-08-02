@@ -1,4 +1,4 @@
-package buildcraft.additionalpipes.gui;
+package buildcraft.additionalpipes.gui.components;
 
 import net.minecraft.client.gui.GuiButton;
 

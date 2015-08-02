@@ -1,4 +1,4 @@
-package buildcraft.additionalpipes.chunkloader;
+package buildcraft.additionalpipes.block;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -9,6 +9,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import buildcraft.additionalpipes.chunkloader.TileChunkLoader;
 import buildcraft.additionalpipes.textures.Textures;
 
 public class BlockChunkLoader extends BlockContainer {

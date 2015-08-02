@@ -13,6 +13,7 @@ public class PlayerUtils
 	 */
 	public static UUID getUUID(EntityPlayer player)
 	{
+		//                  getUUIDForProfile()
 		return EntityPlayer.func_146094_a(player.getGameProfile());
 	}
 }

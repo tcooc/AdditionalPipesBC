@@ -16,7 +16,7 @@ import buildcraft.BuildCraftCore;
 import buildcraft.BuildCraftSilicon;
 import buildcraft.BuildCraftTransport;
 import buildcraft.additionalpipes.api.TeleportManagerBase;
-import buildcraft.additionalpipes.chunkloader.BlockChunkLoader;
+import buildcraft.additionalpipes.block.BlockChunkLoader;
 import buildcraft.additionalpipes.chunkloader.ChunkLoadingHandler;
 import buildcraft.additionalpipes.chunkloader.TileChunkLoader;
 import buildcraft.additionalpipes.gates.GateProvider;

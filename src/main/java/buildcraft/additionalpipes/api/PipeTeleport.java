@@ -28,7 +28,7 @@ import buildcraft.transport.Pipe;
 import buildcraft.transport.PipeTransport;
 import buildcraft.transport.TileGenericPipe;
 
-public abstract class PipeTeleport<pipeType extends PipeTransport> extends APPipe<pipeType> {
+public abstract class PipeTeleport<pipeType extends PipeTransport> extends APPipe<pipeType> implements ITeleportPipe {
 	protected static final Random rand = new Random();
 
 	private int frequency = 0;
@@ -36,17 +36,10 @@ public abstract class PipeTeleport<pipeType extends PipeTransport> extends APPip
 	public byte state = 1;
 
 	public UUID ownerUUID;
-	public String ownerName;
+	public String ownerName = "";
 	
 	public int[] network = new int[0];
 	public boolean isPublic = false;
-	
-	public enum PipeType
-	{
-		ITEMS,
-		FLUIDS,
-		POWER
-	}
 	
 	public final PipeType type;
 
@@ -86,6 +79,51 @@ public abstract class PipeTeleport<pipeType extends PipeTransport> extends APPip
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public byte getState()
+	{
+		return state;
+	}
+
+	public void setState(byte state)
+	{
+		this.state = state;
+	}
+
+	public UUID getOwnerUUID()
+	{
+		return ownerUUID;
+	}
+
+	public void setOwnerUUID(UUID ownerUUID)
+	{
+		this.ownerUUID = ownerUUID;
+	}
+
+	public String getOwnerName()
+	{
+		return ownerName;
+	}
+
+	public void setOwnerName(String ownerName)
+	{
+		this.ownerName = ownerName;
+	}
+
+	public boolean isPublic()
+	{
+		return isPublic;
+	}
+
+	public void setPublic(boolean isPublic)
+	{
+		this.isPublic = isPublic;
+	}
+
+	public PipeType getType()
+	{
+		return type;
 	}
 
 	@Override

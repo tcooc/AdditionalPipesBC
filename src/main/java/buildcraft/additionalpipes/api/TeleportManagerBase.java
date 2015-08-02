@@ -1,11 +1,6 @@
 package buildcraft.additionalpipes.api;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
-import buildcraft.transport.PipeTransportFluids;
-import buildcraft.transport.PipeTransportItems;
-import buildcraft.transport.PipeTransportPower;
 
 /**
  * This class defines the interface for the teleport pipe manager.
@@ -25,14 +20,14 @@ public abstract class TeleportManagerBase
 	 * @param pipe
 	 * @param frequency
 	 */
-	public abstract void add(PipeTeleport<?> pipe, int frequency);
+	public abstract void add(ITeleportPipe pipe, int frequency);
 	
 	/**
 	 * Remove a pipe from the manager on the given frequency.
 	 * @param pipe
 	 * @param frequency
 	 */
-	public abstract void remove(PipeTeleport<?> pipe, int frequency);
+	public abstract void remove(ITeleportPipe pipe, int frequency);
 	
 	/**
 	 * Remove the knowledge of all pipes from the teleport manager.  If called, pipes will stay in the world, but
@@ -49,22 +44,7 @@ public abstract class TeleportManagerBase
 	 * @param includeReceive whether or not to return connected pipes that receive stuff.
 	 * @return
 	 */
-	public abstract ArrayList<PipeTeleport<?>> getConnectedPipes(PipeTeleport<?> pipe, boolean includeSend, boolean includeReceive);
-	
-	/**
-	 * get all item teleport pipes
-	 */
-	public abstract Collection<PipeTeleport<PipeTransportItems>> getAllItemPipesInNetwork();
-	
-	/**
-	 * get all fluid teleport pipes
-	 */
-	public abstract Collection<PipeTeleport<PipeTransportFluids>> getAllFluidPipesInNetwork();
-	
-	/**
-	 * get all power teleport pipes
-	 */
-	public abstract Collection<PipeTeleport<PipeTransportPower>> getAllPowerPipesInNetwork();
+	public abstract ArrayList<PipeTeleport<?>> getConnectedPipes(ITeleportPipe pipe, boolean includeSend, boolean includeReceive);
 	
 	/**
 	 * Get the name of the provided frequency.

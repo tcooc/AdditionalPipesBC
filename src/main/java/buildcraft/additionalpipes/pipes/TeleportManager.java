@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.world.World;
+import buildcraft.additionalpipes.api.ITeleportPipe;
 import buildcraft.additionalpipes.api.PipeTeleport;
+import buildcraft.additionalpipes.api.PipeType;
 import buildcraft.additionalpipes.api.TeleportManagerBase;
 import buildcraft.additionalpipes.utils.Log;
 import buildcraft.transport.PipeTransportFluids;
@@ -51,7 +53,7 @@ public class TeleportManager extends TeleportManagerBase
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	private Collection getPipesInChannel(int frequency, PipeTeleport.PipeType type)
+	private Collection getPipesInChannel(int frequency, PipeType type)
 	{
 		//it seems that you can't cast from a Collection<PipeTeleport<PipeTransportFluids>>
 		//to a Collection<PipeTeleport<?>>.  Why is that? -JS
@@ -70,14 +72,14 @@ public class TeleportManager extends TeleportManagerBase
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void add(PipeTeleport<?> pipe, int frequency)
+	public void add(ITeleportPipe pipe, int frequency)
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
 			return;
 		}
 		
-		switch(pipe.type)
+		switch(pipe.getType())
 		{
 		case ITEMS:
 			itemPipes.put(frequency, (PipeTeleport<PipeTransportItems>) pipe);
@@ -91,22 +93,22 @@ public class TeleportManager extends TeleportManagerBase
 		}
 
 		//if unit tests are being run, pipe.container will be null.
-		if(pipe.container != null)
-		{
-			Log.debug(String.format("[TeleportManager] Pipe added: %s @ (%d, %d, %d), %d pipes in channel", pipe.type.toString(), pipe.container.xCoord, pipe.container.yCoord,
-					pipe.container.zCoord, getPipesInChannel(frequency, pipe.type).size()));
-		}
+//		if(pipe.container != null)
+//		{
+//			Log.debug(String.format("[TeleportManager] Pipe added: %s @ (%d, %d, %d), %d pipes in channel", pipe.type.toString(), pipe.container.xCoord, pipe.container.yCoord,
+//					pipe.container.zCoord, getPipesInChannel(frequency, pipe.type).size()));
+//		}
 	}
 
 	@SuppressWarnings("unchecked")	
 	@Override
-	public void remove(PipeTeleport<?> pipe, int frequency)
+	public void remove(ITeleportPipe pipe, int frequency)
 	{
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)
 		{
 			return;
 		}
-		switch(pipe.type)
+		switch(pipe.getType())
 		{
 		case ITEMS:
 			itemPipes.remove(frequency, (PipeTeleport<PipeTransportItems>) pipe);
@@ -120,11 +122,11 @@ public class TeleportManager extends TeleportManagerBase
 		}
 
 		//if unit tests are being run, pipe.container will be null.
-		if(pipe.container != null)
-		{
-			Log.debug(String.format("[TeleportManager] Pipe removed: %s @ (%d, %d, %d), %d pipes in channel", pipe.type.toString(), pipe.container.xCoord, pipe.container.yCoord,
-				pipe.container.zCoord, getPipesInChannel(frequency, pipe.type).size()));
-		}
+//		if(pipe.container != null)
+//		{
+//			Log.debug(String.format("[TeleportManager] Pipe removed: %s @ (%d, %d, %d), %d pipes in channel", pipe.type.toString(), pipe.container.xCoord, pipe.container.yCoord,
+//				pipe.container.zCoord, getPipesInChannel(frequency, pipe.type).size()));
+//		}
 	}
 
 	@Override
@@ -146,9 +148,9 @@ public class TeleportManager extends TeleportManagerBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<PipeTeleport<?>> getConnectedPipes(PipeTeleport<?> pipe, boolean includeSend, boolean includeReceive) 
+	public ArrayList<PipeTeleport<?>> getConnectedPipes(ITeleportPipe pipe, boolean includeSend, boolean includeReceive) 
 	{
-		Collection<PipeTeleport<?>> channel = getPipesInChannel(pipe.getFrequency(), pipe.type);
+		Collection<PipeTeleport<?>> channel = getPipesInChannel(pipe.getFrequency(), pipe.getType());
 		
 		ArrayList<PipeTeleport<?>> connected = new ArrayList<PipeTeleport<?>>();
 		
@@ -161,7 +163,7 @@ public class TeleportManager extends TeleportManagerBase
 
 			// pipe is open or includeReceive &&
 			// both public or same owner
-			if((((other.state & 0x2) > 0 && includeReceive) || ((other.state & 0x1) > 0 && includeSend)) && (pipe.isPublic ? other.isPublic : (other.ownerUUID != null && other.ownerUUID.equals(pipe.ownerUUID))))
+			if((((other.state & 0x2) > 0 && includeReceive) || ((other.state & 0x1) > 0 && includeSend)) && (pipe.isPublic() ? other.isPublic : (other.ownerUUID != null && other.ownerUUID.equals(pipe.getOwnerUUID()))))
 			{
 				connected.add(other);
 			}
@@ -169,19 +171,16 @@ public class TeleportManager extends TeleportManagerBase
 		return connected;
 	}
 	
-	@Override
 	public Collection<PipeTeleport<PipeTransportItems>> getAllItemPipesInNetwork() 
 	{
 		return itemPipes.values();
 	}
 	
-	@Override
 	public Collection<PipeTeleport<PipeTransportFluids>> getAllFluidPipesInNetwork() 
 	{
 		return fluidPipes.values();
 	}
 	
-	@Override
 	public Collection<PipeTeleport<PipeTransportPower>> getAllPowerPipesInNetwork() 
 	{
 		return powerPipes.values();
