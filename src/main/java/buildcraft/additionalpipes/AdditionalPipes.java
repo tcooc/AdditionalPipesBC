@@ -346,6 +346,7 @@ public class AdditionalPipes {
 		// Item Teleport Pipe
 		pipeItemsTeleport = PipeCreator.createPipeTooltip((Class<? extends APPipe<?>>) PipeItemsTeleport.class, "tip.teleportPipe");
 		
+		GameRegistry.addRecipe(new ItemStack(pipeItemsTeleport, 4), new Object[] { "dgd", 'd', BuildCraftCore.diamondGearItem, 'g', Blocks.glass });
 		AssemblyRecipeManager.INSTANCE.addRecipe("teleportPipe", 10000, new ItemStack(pipeItemsTeleport, 8), new Object[] { new ItemStack(BuildCraftSilicon.redstoneChipset, 1, 4), new ItemStack(BuildCraftTransport.pipeItemsDiamond, 8),
 				new ItemStack(BuildCraftSilicon.redstoneChipset, 1, 3) });
 
