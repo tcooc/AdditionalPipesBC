@@ -17,3 +17,7 @@ MinecraftForge-*.txt
 
 /minecraft-server
 /buildcraft_resources
+
+*.iml
+/.idea/
+/classes/

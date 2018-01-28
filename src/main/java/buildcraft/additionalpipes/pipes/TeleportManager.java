@@ -1,10 +1,14 @@
 package buildcraft.additionalpipes.pipes;
 
 import java.io.File;
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
@@ -22,7 +26,7 @@ public class TeleportManager extends TeleportManagerBase
 {
 	public static final TeleportManager instance = new TeleportManager();
 	
-	private static HashMap<TeleportPipeType, Multimap<Integer, ITeleportPipe>> pipes;
+	private static HashMap<TeleportPipeType, Multimap<Integer, WeakReference<ITeleportPipe>>> pipes;
 
 	public final Map<Integer, String> frequencyNames;
 
@@ -32,11 +36,11 @@ public class TeleportManager extends TeleportManagerBase
 		pipes = new HashMap<>();
 		for(TeleportPipeType type : TeleportPipeType.values())
 		{
-			pipes.put(type, LinkedListMultimap.<Integer, ITeleportPipe>create());
+			pipes.put(type, LinkedListMultimap.create());
 		}
 		
 		// then the regular hashmap for frequency names
-		frequencyNames = new HashMap<Integer, String>();
+		frequencyNames = new HashMap<>();
 	}
 	
 	/**
@@ -47,13 +51,16 @@ public class TeleportManager extends TeleportManagerBase
 	 */
 	private Collection<ITeleportPipe> getPipesInChannel(int frequency, TeleportPipeType type)
 	{
-		return pipes.get(type).get(frequency);
+		return pipes.get(type).get(frequency).stream()
+			.map(Reference::get)
+			.filter(Objects::nonNull)
+			.collect(Collectors.toList());
 	}
 
 	@Override
 	public void add(ITeleportPipe pipe, int frequency)
 	{
-		pipes.get(pipe.getType()).put(frequency, pipe);
+		pipes.get(pipe.getType()).put(frequency, new WeakReference<>(pipe));
 
 		//if unit tests are being run, pipe.container will be null.
 		if(pipe.getContainer() != null)
@@ -131,7 +138,10 @@ public class TeleportManager extends TeleportManagerBase
 	
 	public Collection<ITeleportPipe> getAllPipesInNetwork(TeleportPipeType type) 
 	{
-		return pipes.get(type).values();
+		return pipes.get(type).values().stream()
+			.map(Reference::get)
+			.filter(Objects::nonNull)
+			.collect(Collectors.toList());
 	}
 
 	/**
