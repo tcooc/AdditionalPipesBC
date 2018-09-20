@@ -36,7 +36,7 @@ tip.pipe.ap.pipe_power_switch=如果接收到红石信号则与相邻管道断�
 tip.pipe.ap.pipe_fluids_switch=如果接收到红石信号则与相邻管道断开连接
 tip.pipe.ap.pipe_items_switch=如果接收到红石信号则与相邻管道断开连接
 tip.pipe.ap.pipe_fluids_water_pump=放在水源上方可以输出少量的水
-tip.pipe.ap.pipe_items_addition=只给临接容器传送它们已有的物品
+tip.pipe.ap.pipe_items_addition=只给连接的容器传送它们已有的物品
 tip.pipe.ap.pipe_items_jeweled=大容量可配置的分类管道
 
 # Jeweled Pipe GUI
@@ -49,7 +49,7 @@ gui.jeweled_pipe.tab.south=南
 gui.jeweled_pipe.tab.east=东
 gui.jeweled_pipe.tab.west=西
 #buttons
-gui.jeweled_pipe.match=Match:
+gui.jeweled_pipe.match=匹配:
 gui.jeweled_pipe.NBT=NBT
 gui.jeweled_pipe.metadata=Meta
 gui.jeweled_pipe.acceptUnsorted=接收未分类物品
@@ -83,7 +83,7 @@ trigger.pipe_closed=管道关闭 (存储物品)
 key.lasers=显示区块载入边界
 
 #tooltips for teleport pipes
-tip.teleportPipe=没有更长的管道线！
+tip.teleportPipe=没有更长的管道线!
 
 tooltip.dog_deaggravator=让你的狗冷静下来
 
@@ -92,7 +92,7 @@ itemGroup.apcreativetab=附加管道
 # chat stuff
 command.ap.usage=用法: /additionalpipes teleport <items|fluids|power>
 command.ap.pipelist_header=隔空传送管道: 
-message.ap.accessdenied=拒绝访问!  该管道属于 %s
+message.ap.accessdenied=拒绝访问! 该管道属于 %s
 
 # Subtitle for when the Dog Deaggravator is used
 subtitle.ap.dog_deaggravator=铃响
