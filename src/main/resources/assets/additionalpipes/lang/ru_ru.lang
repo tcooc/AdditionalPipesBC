@@ -1,31 +1,100 @@
-tile.teleport_tether.name=Телепорт тизер
 item.pipe.ap.pipe_items_priority.name=Приоритетная вводящая труба
-item.PipeItemsAdvancedInsertion.name=[Устаревшая] Вводящая транспортная труба
 item.pipe.ap.pipe_items_adv_wood.name=Продвинутая деревянная транспортная труба
+item.pipe.ap.pipe_items_gravity_feed.name=Гравитационная транспортная труба
 item.pipe.ap.pipe_items_distribution.name=Распределяющая транспортная труба
 item.pipe.ap.pipe_items_closed.name=Закрытая транспортная труба
 item.pipe.ap.pipe_items_teleport.name=Предметная телепортирующая труба
 item.pipe.ap.pipe_fluids_teleport.name=Жидкостная телепортирующая труба
-item.pipe.ap.pipe_power_teleport.name=Энергетическая телепортирующая труба
+item.pipe.ap.pipe_power_teleport.name=Энергетическая телепортирующая труба [WIP]
 item.pipe.ap.pipe_power_switch.name=Переключающая энергетическая труба
 item.pipe.ap.pipe_fluids_switch.name=Переключающая жидкостная труба
 item.pipe.ap.pipe_items_switch.name=Переключающая транспортная труба
 item.pipe.ap.pipe_fluids_water_pump.name=Водяная помповая труба
 item.pipe.ap.pipe_items_addition.name=Дополнительная транспортная труба
+item.pipe.ap.pipe_items_jeweled.name=Драгоценная транспортная труба
 
-gui.pipeItemsDistributor=Распределяющая труба
-gui.pipeItemsPriorityInsertion=Приоритетная вводящая труба
-gui.PipeItemsAdvancedWood=Продвинутая деревянная труба
-gui.jeweled_pipe=Драгоценная труба
+#regular items & blocks
+item.dog_deaggravator.name=Колокольчик
+tile.teleport_tether.name=Телепорт тизер [WIP]
 
-trigger.pipe_closed=Труба закрыта (Накапливает предметы)
-gate.phasedSignalRed=Красный переключаемый сигнал
-gate.phasedSignalBlue=Синий переключаемый сигнал
-gate.phasedSignalGreen=Зелёный переключаемый сигнал
-gate.phasedSignalYellow=Жёлтый переключаемый сигнал
+# Priority Insertion Pipe
+gui.priority_insertion.title=Приоритетная труба
+
+#Distribution Pipe
+gui.distribution_pipe.title=Распределяющая труба
+
+# Pipe Tooltips
+tip.pipe.ap.pipe_items_priority=Fills each connected side in a user-defined order
+tip.pipe.ap.pipe_items_adv_wood=Extraction pipe allowing simple item filtering
+tip.pipe.ap.pipe_items_gravity_feed=Медленно извлекает предметы из нижней части инвентаря, не нуждается в энергии
+tip.pipe.ap.pipe_items_teleport=Позволяет телепортировать предметы между двумя таким трубами настроенными на одну частоту
+tip.pipe.ap.pipe_items_distribution=Outputs a configurable ratio of items to each side
+tip.pipe.ap.pipe_items_closed=Вместо выкидывания предметов, хранит их во внутреннем инвентаре
+tip.pipe.ap.pipe_fluids_teleport=Позволяет телепортировать жидкости между двумя такими трубами, настроенными на одну частоту
+tip.pipe.ap.pipe_power_teleport=Позволяет телепортировать энергию BuildCraft между двумя такими трубами, настроенными на одну частоту.
+tip.pipe.ap.pipe_power_switch=Отключается от соседних труб, если получает красный сигнал
+tip.pipe.ap.pipe_fluids_switch=Отключается от соседних труб, если получает красный сигнал
+tip.pipe.ap.pipe_items_switch=Отключается от соседних труб, если получает красный сигнал
+tip.pipe.ap.pipe_fluids_water_pump=Outputs a small amount of water if placed over a water source block
+tip.pipe.ap.pipe_items_addition=Adds items to adjacent inventories only if they already have that item
+tip.pipe.ap.pipe_items_jeweled=Улучшеная сортирующая труба для предметов, имеет много настроек
+
+# Jeweled Pipe GUI
+gui.jeweled_pipe.title=Драгоценная труба
+#tab names
+gui.jeweled_pipe.tab.up=Верх
+gui.jeweled_pipe.tab.down=Низ
+gui.jeweled_pipe.tab.north=Север
+gui.jeweled_pipe.tab.south=Юг
+gui.jeweled_pipe.tab.east=Восток
+gui.jeweled_pipe.tab.west=Запал
+#buttons
+gui.jeweled_pipe.match=Match:
+gui.jeweled_pipe.NBT=NBT
+gui.jeweled_pipe.metadata=Meta
+gui.jeweled_pipe.acceptUnsorted=Accept Unsorted
+
+# Closed Pipe GUI
+gui.closed_pipe.title=Закрытая труба
+
+# Adv. Wood Pipe GUI
+gui.advwood_pipe.title=Продвинутая деревяная труба
+gui.advwood_pipe.blacklist=Эти предметы исключены
+gui.advwood_pipe.whitelist=Эти предметы требуются
+
+# Teleport Pipe GUI
+gui.teleport.ledger.title=Соединенные трубы
+gui.teleport.ledger.owner=Владелец: %s
+gui.teleport.ledger.outputs=Количество: %d
+gui.teleport.ledger.inputs=Количество: %s
+gui.teleport.frequency=Частота: %d
+gui.teleport.coordPair=Координаты: (%d, %d, %d)
+gui.teleport.send_only=Только отправить
+gui.teleport.send_and_receive=Отправить и получить
+gui.teleport.receive_only=Только получить
+gui.teleport.disabled=Отключено
+gui.teleport.public=Публичная
+gui.teleport.private=Приватная
+
+# name of "closed pipe is closed" trigger
+trigger.pipe_closed=Pipe Closed (Storing Items) 
 
 key.lasers=Переключает отображение загрузки границ чанков
 
-tip.teleportPipe=Больше никаких труб!
+#tooltips for teleport pipes
+tip.teleportPipe=No more long pipelines!
 
-command.ap.usage=/additionalpipes teleport [items|fluids|power]
+tooltip.dog_deaggravator=Действует всем на нервы
+
+itemGroup.apcreativetab=Additional Pipes
+
+# chat stuff
+command.ap.usage=Использование: /additionalpipes teleport <items|fluids|power>
+command.ap.pipelist_header=Телепортирующие трубы:
+message.ap.accessdenied=Доступ запрещен! Владелец трубы: %s
+
+# Subtitle for when the Dog Deaggravator is used
+subtitle.ap.dog_deaggravator=Звонок колокольчика
+
+# Name of Additional Pipes chapter in the BC Guide
+buildcraft.guide.chapter.mod.additionalpipes=Additional Pipes
