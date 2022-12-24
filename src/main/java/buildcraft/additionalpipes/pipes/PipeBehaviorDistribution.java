@@ -106,6 +106,13 @@ public class PipeBehaviorDistribution extends APPipe {
 					entry.stack.setCount(entry.stack.getCount() - stackPartThisSide.stack.getCount()); // and leave event.stack with the remainder
 					
 					newDistribution.add(stackPartThisSide);
+
+
+					//Fix Stall
+					if (stackPartThisSide.stack.isEmpty()) {
+						break;
+					}
+
 					itemsThisSide += stackPartThisSide.stack.getCount();
 					stackPartThisSide.to.add(distSide);
 				}
