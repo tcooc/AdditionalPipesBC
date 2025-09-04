@@ -146,7 +146,7 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 		ArrayList<PipeBehaviorTeleportItems> connectedTeleportPipes = (ArrayList)TeleportManager.instance.getConnectedPipes(this, false, true);
 		
 		// no teleport pipes connected, use default
-		if(connectedTeleportPipes.size() <= 0 || (state & 0x1) == 0) {
+		if(connectedTeleportPipes.size() <= 0 || (state.ordinal() & 0x1) == 0) {
 			return;
 		}
 

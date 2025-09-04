@@ -30,15 +30,20 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	protected static final Random rand = new Random();
 
 	private int frequency = 0;
+	public enum States{
+		NONE,
+		SEND,
+		RECEIVE,
+		SEND_AND_RECEIVE
+	}
 	// 0b0 = none, 0b1 = send, 0b10 = receive, 0b11 = both
-	public byte state = 1;
+	protected States state = States.SEND;
+	protected UUID ownerUUID;
+	protected String ownerName = "";
 
-	public UUID ownerUUID;
-	public String ownerName = "";
-	
-	public int[] network = new int[0]; // coordinates of connected pipes.  Used as a sort of cache variable by the teleport pipe GUI.
-	public boolean isPublic = false;
-	
+	protected int[] network = new int[0]; // coordinates of connected pipes.  Used as a sort of cache variable by the teleport pipe GUI.
+	protected boolean isPublic = false;
+
 	public final TeleportPipeType type;
 
 	public PipeBehaviorTeleport(IPipe pipe, TeleportPipeType type)
@@ -46,10 +51,10 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		super(pipe);
 		this.type = type;
 		
-		if(isServer())
+/*		if(isServer())
 		{
 			TeleportManager.instance.add(this, frequency);
-		}
+		}*/
 
 	}
 	
@@ -59,7 +64,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		this.type = type;
 		
 		frequency = tagCompound.getInteger("freq");
-		state = tagCompound.getByte("state");
+		state = States.values()[tagCompound.getByte("state")];
 		if(tagCompound.hasKey("ownerUUID"))
 		{
 			ownerUUID = UUID.fromString(tagCompound.getString("ownerUUID"));
@@ -67,21 +72,25 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		}
 		isPublic = tagCompound.getBoolean("isPublic");
 		
-		if(isServer())
+/*		if(isServer())
 		{
 			TeleportManager.instance.add(this, frequency);
-		}
+		}*/
 	}
 	
 	@Override
 	public byte getState()
 	{
-		return state;
+		return (byte) state.ordinal();
 	}
 
 	@Override
 	public void setState(byte state)
 	{
+		this.state = States.values()[state];
+	}
+
+	public void setState(States state) {
 		this.state = state;
 	}
 
@@ -105,6 +114,14 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	public void setOwnerName(String ownerName)
 	{
 		this.ownerName = ownerName;
+	}
+
+	public int[] getNetwork() {
+		return network;
+	}
+
+	public void setNetwork(int[] network) {
+		this.network = network;
 	}
 
 	@Override
@@ -151,6 +168,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		if(isServer())
 		{
 			Log.debug("Teleport pipe at " + getPos() + " validated");
+			TeleportManager.instance.add(this, frequency);
 		}
 	}
 
@@ -296,7 +314,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	{
 		NBTTagCompound nbttagcompound = super.writeToNbt();
 		nbttagcompound.setInteger("freq", frequency);
-		nbttagcompound.setByte("state", state);
+		nbttagcompound.setByte("state", (byte) state.ordinal());
 		if(ownerUUID != null)
 		{
 			nbttagcompound.setString("ownerUUID", ownerUUID.toString());
@@ -321,12 +339,12 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	@Override
 	public boolean canReceive()
 	{
-		return (state & 0x2) > 0;
+		return (state.ordinal() & 0x2) > 0;
 	}
 	
 	@Override
 	public boolean canSend()
 	{
-		return (state & 0x1) > 0;
+		return (state.ordinal() & 0x1) > 0;
 	}
 }

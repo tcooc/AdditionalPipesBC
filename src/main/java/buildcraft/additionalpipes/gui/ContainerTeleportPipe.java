@@ -40,7 +40,7 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 
 		//set these variables to invalid values so that they will be updated
 		state = -1;
-		isPublic = !pipe.isPublic;
+		isPublic = !pipe.isPublic();
 		freq = -1;
 		
 		isSendingPipe = pipe.canSend();
@@ -56,7 +56,7 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 				locations[3 * i + 2] = connectedPipe.getContainer().getPos().getZ();
 			}
 			
-			MessageTelePipeData message = new MessageTelePipeData(pipe.getPos(), locations, pipe.ownerUUID, pipe.ownerName);
+			MessageTelePipeData message = new MessageTelePipeData(pipe.getPos(), locations, pipe.getOwnerUUID(), pipe.getOwnerName());
 			PacketHandler.INSTANCE.sendTo(message, (EntityPlayerMP) player);
 			
 			//save the pipe's old frequency so it can be removed later
@@ -89,19 +89,19 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 			if(freq != pipe.getFrequency()) {
 				crafter.sendWindowProperty(this, 0, pipe.getFrequency());
 			}
-			if(state != pipe.state) {
-				crafter.sendWindowProperty(this, 1, pipe.state);
+			if(state != pipe.getState()) {
+				crafter.sendWindowProperty(this, 1, pipe.getState());
 			}
 			if(connectedPipesNew != connectedPipes) {
 				crafter.sendWindowProperty(this, 2, connectedPipesNew);
 			}
-			if(isPublic != pipe.isPublic) {
-				crafter.sendWindowProperty(this, 3, pipe.isPublic ? 1 : 0);
+			if(isPublic != pipe.isPublic()) {
+				crafter.sendWindowProperty(this, 3, pipe.isPublic() ? 1 : 0);
 			}
 		}
-		state = pipe.state;
+		state = pipe.getState();
 		freq = pipe.getFrequency();
-		isPublic = pipe.isPublic;
+		isPublic = pipe.isPublic();
 		connectedPipes = connectedPipesNew;
 	}
 
@@ -112,13 +112,13 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 			pipe.setFrequency(j);
 			break;
 		case 1:
-			pipe.state = (byte) j;
+			pipe.setState((byte) j);
 			break;
 		case 2:
 			connectedPipes = j;
 			break;
 		case 3:
-			pipe.isPublic = (j == 1);
+			pipe.setPublic((j == 1));
 			break;
 		}
 	}

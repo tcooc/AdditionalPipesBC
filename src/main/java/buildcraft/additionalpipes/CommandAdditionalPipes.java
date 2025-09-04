@@ -59,7 +59,7 @@ public class CommandAdditionalPipes extends CommandBase {
 				sb.append(pipe.getPosition().getX()).append(", ");
 				sb.append(pipe.getPosition().getY()).append(", ");
 				sb.append(pipe.getPosition().getZ()).append("] ");
-				sb.append(pipe.ownerName);
+				sb.append(pipe.getOwnerName());
 				sender.sendMessage(new TextComponentString(sb.toString()));
 			}
 		}

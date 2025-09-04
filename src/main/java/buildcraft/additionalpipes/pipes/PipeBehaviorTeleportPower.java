@@ -101,7 +101,7 @@ public class PipeBehaviorTeleportPower extends PipeBehaviorTeleport implements I
 		List<PipeBehaviorTeleportPower> sendingToList = new LinkedList<PipeBehaviorTeleportPower>();
 
 		// no connected pipes, leave!
-		if(connectedPipes.size() <= 0 || (state & 0x1) == 0)
+		if(connectedPipes.size() <= 0 || (state.ordinal() & 0x1) == 0)
 		{
 			return 0;
 		}

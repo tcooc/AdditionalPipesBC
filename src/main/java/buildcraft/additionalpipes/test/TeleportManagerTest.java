@@ -3,6 +3,7 @@ package buildcraft.additionalpipes.test;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import buildcraft.additionalpipes.pipes.PipeBehaviorTeleport.States;
 import buildcraft.additionalpipes.pipes.PipeBehaviorTeleportItems;
 import buildcraft.additionalpipes.pipes.TeleportManager;
 import buildcraft.additionalpipes.utils.Log;
@@ -107,17 +108,17 @@ public class TeleportManagerTest
 		pipe2.setFrequency(3);
 		pipe3.setFrequency(3);
 		
-		pipe1.state = 0x3;
-		pipe2.state = 0x3;
-		pipe3.state = 0x3;
+		pipe1.setState(States.SEND_AND_RECEIVE);;
+		pipe2.setState(States.SEND_AND_RECEIVE);;
+		pipe3.setState(States.SEND_AND_RECEIVE);;
 		
-		pipe1.ownerUUID = UUID.randomUUID();
-		pipe2.ownerUUID = UUID.randomUUID();
-		pipe3.ownerUUID = UUID.randomUUID();
+		pipe1.setOwnerUUID(UUID.randomUUID());
+		pipe2.setOwnerUUID(UUID.randomUUID());
+		pipe3.setOwnerUUID(UUID.randomUUID());
 		
-		pipe1.isPublic = true;
-		pipe2.isPublic = true;
-		pipe3.isPublic = true;
+		pipe1.setPublic(true);
+		pipe2.setPublic(true);
+		pipe3.setPublic(true);
 
 		TeleportManager.instance.add(pipe1, 3);
 		TeleportManager.instance.add(pipe2, 3);
@@ -148,17 +149,17 @@ public class TeleportManagerTest
 		pipe2.setFrequency(3);
 		pipe3.setFrequency(3);
 		
-		pipe1.state = 0x3;
-		pipe2.state = 0x3;
-		pipe3.state = 0x3;
+		pipe1.setState(States.SEND_AND_RECEIVE);
+		pipe2.setState(States.SEND_AND_RECEIVE);
+		pipe3.setState(States.SEND_AND_RECEIVE);
 		
-		pipe1.ownerUUID = UUID.randomUUID();
-		pipe2.ownerUUID = UUID.randomUUID();
-		pipe3.ownerUUID = pipe2.ownerUUID;  // Muahahahah!  I am a glitched duplicate, bet you can't remove me!
+		pipe1.setOwnerUUID(UUID.randomUUID());
+		pipe2.setOwnerUUID(UUID.randomUUID());
+		pipe3.setOwnerUUID(pipe2.getOwnerUUID());  // Muahahahah!  I am a glitched duplicate, bet you can't remove me!
 		
-		pipe1.isPublic = true;
-		pipe2.isPublic = true;
-		pipe3.isPublic = true;
+		pipe1.setPublic(true);
+		pipe2.setPublic(true);
+		pipe3.setPublic(true);
 
 		TeleportManager.instance.add(pipe1, 3);
 		TeleportManager.instance.add(pipe3, 3);
@@ -196,17 +197,17 @@ public class TeleportManagerTest
 		pipe2.setFrequency(3);
 		pipe3.setFrequency(3);
 		
-		pipe1.state = 0x3;
-		pipe2.state = 0x1;
-		pipe3.state = 0x2;
+		pipe1.setState(States.SEND_AND_RECEIVE);
+		pipe2.setState(States.SEND);
+		pipe3.setState(States.RECEIVE);
 		
-		pipe1.ownerUUID = UUID.randomUUID();
-		pipe2.ownerUUID = UUID.randomUUID();
-		pipe3.ownerUUID = UUID.randomUUID();
-		
-		pipe1.isPublic = true;
-		pipe2.isPublic = true;
-		pipe3.isPublic = true;
+		pipe1.setOwnerUUID(UUID.randomUUID());
+		pipe2.setOwnerUUID(UUID.randomUUID());
+		pipe3.setOwnerUUID(UUID.randomUUID());
+
+		pipe1.setPublic(true);
+		pipe2.setPublic(true);
+		pipe3.setPublic(true);
 
 		TeleportManager.instance.add(pipe1, 3);
 		TeleportManager.instance.add(pipe2, 3);
@@ -250,23 +251,23 @@ public class TeleportManagerTest
 		pipe4.setFrequency(3);
 		pipe5.setFrequency(7);
 		
-		pipe1.state = 0x1;  //send only
-		pipe2.state = 0x3;  //send and receive
-		pipe3.state = 0x2;  //receive only
-		pipe4.state = 0x1;  //send only
-		pipe5.state = 0x3;  //send and receive
+		pipe1.setState(States.SEND);  //send only
+		pipe2.setState(States.SEND_AND_RECEIVE);  //send and receive
+		pipe3.setState(States.RECEIVE); //receive only
+		pipe4.setState(States.SEND);  //send only
+		pipe5.setState(States.SEND_AND_RECEIVE);  //send and receive
+
+		pipe1.setPublic(true);
+		pipe2.setPublic(true);
+		pipe3.setPublic(true);
+		pipe4.setPublic(true);
+		pipe5.setPublic(true);
 		
-		pipe1.isPublic = true;
-		pipe2.isPublic = true;
-		pipe3.isPublic = true;
-		pipe4.isPublic = true;
-		pipe5.isPublic = true;
-		
-		pipe1.ownerUUID = UUID.randomUUID();
-		pipe2.ownerUUID = UUID.randomUUID();
-		pipe3.ownerUUID = UUID.randomUUID();
-		pipe4.ownerUUID = UUID.randomUUID();
-		pipe5.ownerUUID = UUID.randomUUID();
+		pipe1.setOwnerUUID(UUID.randomUUID());
+		pipe2.setOwnerUUID(UUID.randomUUID());
+		pipe3.setOwnerUUID(UUID.randomUUID());
+		pipe4.setOwnerUUID(UUID.randomUUID());
+		pipe5.setOwnerUUID(UUID.randomUUID());
 		
 		TeleportManager.instance.add(pipe1, 3);
 		TeleportManager.instance.add(pipe2, 3);

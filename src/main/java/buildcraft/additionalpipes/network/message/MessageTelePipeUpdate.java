@@ -71,8 +71,8 @@ public class MessageTelePipeUpdate implements IMessage, IMessageHandler<MessageT
 				frequency = 0;
 			}
 			pipe.setFrequency(frequency);
-			pipe.state = (byte) message._state;
-			pipe.isPublic = message._isPublic;
+			pipe.setState(message._state);
+			pipe.setPublic(message._isPublic);
 		}
     	
     	return null;

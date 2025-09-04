@@ -32,7 +32,7 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 			super(GuiTeleportPipe.this.mainGui, OVERLAY_COLOR, true);
 			this.title = "gui.teleport.ledger.title";
 			
-			appendText(() -> ((pipe.state & 0x1) >= 1) ? I18n.format("gui.teleport.ledger.outputs", container.connectedPipes) : I18n.format("gui.teleport.ledger.inputs", container.connectedPipes), headerColour);
+			appendText(() -> ((pipe.getState() & 0x1) >= 1) ? I18n.format("gui.teleport.ledger.outputs", container.connectedPipes) : I18n.format("gui.teleport.ledger.inputs", container.connectedPipes), headerColour);
 			
 			// print up to the first 3 connected pipes, with 3 coords each
 			for(int coordIndex = 0; coordIndex < 3; coordIndex += 3)
@@ -41,9 +41,9 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 				appendText( () -> 
 				{
 					StringBuilder text = new StringBuilder();
-					if(pipe.network.length >= capturedIdx + 2) 
+					if(pipe.getNetwork().length >= capturedIdx + 2)
 					{
-						text.append("(").append(pipe.network[capturedIdx]).append(", ").append(pipe.network[capturedIdx + 1]).append(", ").append(pipe.network[capturedIdx + 2]).append(")");
+						text.append("(").append(pipe.getNetwork()[capturedIdx]).append(", ").append(pipe.getNetwork()[capturedIdx + 1]).append(", ").append(pipe.getNetwork()[capturedIdx + 2]).append(")");
 					}
 					
 					return text.toString();
@@ -103,9 +103,9 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 		fontRenderer.drawString(I18n.format("gui.teleport.frequency", pipe.getFrequency()), guiLeft + 16, guiTop + 66, 0x404040);
 		fontRenderer.drawString(I18n.format("gui.teleport.coordPair", pipe.getPos().getX(), pipe.getPos().getY(), pipe.getPos().getZ()), guiLeft + 110, guiTop + 20, 0x404040);
 		
-		fontRenderer.drawString(I18n.format("gui.teleport.ledger.owner", pipe.ownerName), guiLeft + 12, guiTop + 20, 0x404040);
+		fontRenderer.drawString(I18n.format("gui.teleport.ledger.owner", pipe.getOwnerName()), guiLeft + 12, guiTop + 20, 0x404040);
 		
-		switch(pipe.state) {
+		switch(pipe.getState()) {
 		case 3:
 			buttons[6].displayString = I18n.format("gui.teleport.send_and_receive");
 			break;
@@ -119,7 +119,7 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 			buttons[6].displayString = I18n.format("gui.teleport.disabled");
 			break;
 		}
-		if(pipe.isPublic) {
+		if(pipe.isPublic()) {
 			buttons[7].displayString = I18n.format("gui.teleport.public");
 		} else {
 			buttons[7].displayString = I18n.format("gui.teleport.private");
@@ -129,8 +129,8 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 	@Override
 	protected void actionPerformed(GuiButton guibutton) {
 		int freq = pipe.getFrequency();
-		byte state = pipe.state;
-		boolean isPublic = pipe.isPublic;
+		byte state = pipe.getState();
+		boolean isPublic = pipe.isPublic();
 		switch(guibutton.id) {
 		case 1:
 			freq -= 100;
