@@ -21,6 +21,11 @@ minecraft {
     runDir = "minecraft"
 	mappings = "snapshot_20171120"
 
+    if  (!developmentEnvironmentUserName.isEmpty()){
+        clientRunArgs +=['--username', developmentEnvironmentUserName.toString()]
+    }
+
+
 }
 // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 repositories {
