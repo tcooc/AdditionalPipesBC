@@ -10,6 +10,8 @@ import buildcraft.additionalpipes.api.TeleportPipeType;
 import buildcraft.additionalpipes.gui.GuiHandler;
 import buildcraft.additionalpipes.utils.Log;
 import buildcraft.additionalpipes.utils.PlayerUtils;
+import buildcraft.additionalpipes.utils.TagStrings;
+import buildcraft.additionalpipes.utils.TranslationKeys;
 import buildcraft.api.core.EnumPipePart;
 import buildcraft.api.transport.pipe.IPipe;
 import buildcraft.api.transport.pipe.PipeBehaviour;
@@ -21,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 
@@ -30,11 +33,18 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	protected static final Random rand = new Random();
 
 	private int frequency = 0;
-	public enum States{
+	public enum States {
 		NONE,
 		SEND,
 		RECEIVE,
-		SEND_AND_RECEIVE
+		SEND_AND_RECEIVE;
+
+		public static final States[] VALUES = new States[3];
+
+		public static States byIndex(int index)
+		{
+			return VALUES[MathHelper.abs(index % VALUES.length)];
+		}
 	}
 	// 0b0 = none, 0b1 = send, 0b10 = receive, 0b11 = both
 	protected States state = States.SEND;
@@ -43,6 +53,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 
 	protected int[] network = new int[0]; // coordinates of connected pipes.  Used as a sort of cache variable by the teleport pipe GUI.
 	protected boolean isPublic = false;
+	protected UUID pipeUUID;
 
 	public final TeleportPipeType type;
 
@@ -50,7 +61,8 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	{
 		super(pipe);
 		this.type = type;
-		
+		this.pipeUUID = UUID.randomUUID();
+
 /*		if(isServer())
 		{
 			TeleportManager.instance.add(this, frequency);
@@ -63,19 +75,27 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		super(pipe, tagCompound);
 		this.type = type;
 		
-		frequency = tagCompound.getInteger("freq");
-		state = States.values()[tagCompound.getByte("state")];
-		if(tagCompound.hasKey("ownerUUID"))
+		frequency = tagCompound.getInteger(TagStrings.FREQ);
+		state = States.values()[tagCompound.getByte(TagStrings.STATE)];
+		if(tagCompound.hasKey(TagStrings.OWNER_UUID))
 		{
-			ownerUUID = UUID.fromString(tagCompound.getString("ownerUUID"));
-			ownerName = tagCompound.getString("ownerName");
+			ownerUUID = UUID.fromString(tagCompound.getString(TagStrings.OWNER_UUID));
+			ownerName = tagCompound.getString(TagStrings.OWNER_NAME);
 		}
-		isPublic = tagCompound.getBoolean("isPublic");
-		
+		isPublic = tagCompound.getBoolean(TagStrings.IS_PUBLIC);
+
+		if (tagCompound.hasKey(TagStrings.PIPE_UUID)){
+			this.pipeUUID = UUID.fromString(tagCompound.getString(TagStrings.PIPE_UUID));
+		}
+		else{
+			pipeUUID = UUID.randomUUID();
+		}
+
 /*		if(isServer())
 		{
 			TeleportManager.instance.add(this, frequency);
 		}*/
+
 	}
 	
 	@Override
@@ -135,7 +155,14 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	{
 		this.isPublic = isPublic;
 	}
-	
+
+	public UUID getPipeUUID() {
+		return pipeUUID;
+	}
+
+	public void setPipeUUID(UUID pipeUUID){
+		this.pipeUUID = pipeUUID;
+	}
 	@Override
 	public TeleportPipeType getType()
 	{
@@ -220,7 +247,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 			else
 			{
 				//access denied
-				player.sendMessage(new TextComponentTranslation("message.ap.accessdenied", ownerName));
+				player.sendMessage(new TextComponentTranslation(TranslationKeys.ACCESS_DENIED, ownerName));
 				
 				//if we return false, this method can get called again with a different side, and it will show the message again
 				return true;
@@ -234,6 +261,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
         
         if (!player.world.isRemote) 
         {
+			Log.debug("[TeleportPipe] PipeUUID: " + pipeUUID);
         	BlockPos pipePos = pipe.getHolder().getPipePos();
         	player.openGui(AdditionalPipes.instance, GuiHandler.PIPE_TP, pipe.getHolder().getPipeWorld(), pipePos.getX(), pipePos.getY(), pipePos.getZ());
         }
@@ -249,8 +277,9 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		if(obj instanceof ITeleportPipe)
 		{
 			ITeleportPipe pipe = (ITeleportPipe)obj;
+			return pipe.getPipeUUID() == pipeUUID;
 			
-			if(pipe.getType() == getType())
+/*			if(pipe.getType() == getType())
 			{
 				if(pipe.getState() == getState())
 				{
@@ -268,7 +297,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 						}
 					}
 				}
-			}
+			}*/
 		}
 		
 		return false;
@@ -313,15 +342,18 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	public NBTTagCompound writeToNbt() 
 	{
 		NBTTagCompound nbttagcompound = super.writeToNbt();
-		nbttagcompound.setInteger("freq", frequency);
-		nbttagcompound.setByte("state", (byte) state.ordinal());
+		nbttagcompound.setInteger(TagStrings.FREQ, frequency);
+		nbttagcompound.setByte(TagStrings.STATE, (byte) state.ordinal());
 		if(ownerUUID != null)
 		{
-			nbttagcompound.setString("ownerUUID", ownerUUID.toString());
-			nbttagcompound.setString("ownerName", ownerName);
+			nbttagcompound.setString(TagStrings.OWNER_UUID, ownerUUID.toString());
+			nbttagcompound.setString(TagStrings.OWNER_NAME, ownerName);
 		}
-		nbttagcompound.setBoolean("isPublic", isPublic);
-		
+		nbttagcompound.setBoolean(TagStrings.IS_PUBLIC, isPublic);
+
+		if (pipeUUID != null){
+			nbttagcompound.setString(TagStrings.PIPE_UUID, pipeUUID.toString());
+		}
 		return nbttagcompound;
 	}
 
@@ -339,12 +371,12 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	@Override
 	public boolean canReceive()
 	{
-		return (state.ordinal() & 0x2) > 0;
+		return (state.ordinal() & States.RECEIVE.ordinal()) > 0;
 	}
 	
 	@Override
 	public boolean canSend()
 	{
-		return (state.ordinal() & 0x1) > 0;
+		return (state.ordinal() & States.SEND.ordinal()) > 0;
 	}
 }

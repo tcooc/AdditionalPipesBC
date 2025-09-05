@@ -13,6 +13,7 @@ import java.util.LinkedList;
 
 import buildcraft.additionalpipes.api.TeleportPipeType;
 import buildcraft.additionalpipes.utils.Log;
+import buildcraft.additionalpipes.utils.TagStrings;
 import buildcraft.api.transport.pipe.IPipe;
 import buildcraft.api.transport.pipe.PipeBehaviour;
 import buildcraft.api.transport.pipe.PipeEventHandler;
@@ -33,7 +34,7 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 	{
 		super(pipe, tagCompound, TeleportPipeType.ITEMS);
 		
-		teleportSide = EnumFacing.VALUES[tagCompound.getByte("teleportSide")];
+		teleportSide = EnumFacing.VALUES[tagCompound.getByte(TagStrings.TELEPORT_SIDE)];
 	}
 
 	public PipeBehaviorTeleportItems(IPipe pipe)
@@ -48,7 +49,7 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 		
 		if(getTeleportSide() != null)
 		{
-			nbt.setByte("teleportSide", (byte) getTeleportSide().ordinal());
+			nbt.setByte(TagStrings.TELEPORT_SIDE, (byte) getTeleportSide().ordinal());
 		}
 		
 		return nbt;
@@ -146,7 +147,7 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 		ArrayList<PipeBehaviorTeleportItems> connectedTeleportPipes = (ArrayList)TeleportManager.instance.getConnectedPipes(this, false, true);
 		
 		// no teleport pipes connected, use default
-		if(connectedTeleportPipes.size() <= 0 || (state.ordinal() & 0x1) == 0) {
+		if(connectedTeleportPipes.size() <= 0 || (state.ordinal() & States.SEND.ordinal()) == 0) {
 			return;
 		}
 

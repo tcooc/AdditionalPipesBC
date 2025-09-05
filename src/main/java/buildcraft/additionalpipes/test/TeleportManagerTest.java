@@ -145,6 +145,7 @@ public class TeleportManagerTest
 		PipeBehaviorTeleportItems pipe2 = new PipeBehaviorTeleportItems(null);
 		PipeBehaviorTeleportItems pipe3 = new PipeBehaviorTeleportItems(null);
 
+
 		pipe1.setFrequency(3);
 		pipe2.setFrequency(3);
 		pipe3.setFrequency(3);
@@ -154,19 +155,21 @@ public class TeleportManagerTest
 		pipe3.setState(States.SEND_AND_RECEIVE);
 		
 		pipe1.setOwnerUUID(UUID.randomUUID());
-		pipe2.setOwnerUUID(UUID.randomUUID());
-		pipe3.setOwnerUUID(pipe2.getOwnerUUID());  // Muahahahah!  I am a glitched duplicate, bet you can't remove me!
-		
+		pipe2.setOwnerUUID(pipe1.getOwnerUUID());
+		pipe3.setOwnerUUID(pipe2.getOwnerUUID());
+
 		pipe1.setPublic(true);
 		pipe2.setPublic(true);
 		pipe3.setPublic(true);
+
+		pipe3.setPipeUUID(pipe2.getPipeUUID()); // Muahahahah!  I am a glitched duplicate, bet you can't remove me!
 
 		TeleportManager.instance.add(pipe1, 3);
 		TeleportManager.instance.add(pipe3, 3);
 		TeleportManager.instance.add(pipe2, 3);
 		
 		ArrayList<PipeBehaviorTeleportItems> pipesList = (ArrayList)TeleportManager.instance.getConnectedPipes(pipe1, true, true);
-		
+
 		if(!(pipesList.size() == 1 && (pipesList.contains(pipe2))))
 		{
 			return false;

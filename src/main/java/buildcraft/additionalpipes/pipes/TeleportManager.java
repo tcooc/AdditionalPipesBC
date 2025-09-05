@@ -59,7 +59,7 @@ public class TeleportManager extends TeleportManagerBase
 		for(Iterator<ITeleportPipe> pipesIter = pipesInChannel.iterator(); pipesIter.hasNext(); )
 		{
 			ITeleportPipe pipe = pipesIter.next();
-			if(pipe.equals(newPipe))
+			if(pipe.getPipeUUID() == newPipe.getPipeUUID())
 			{
 				pipesIter.remove();
 			}
@@ -83,8 +83,9 @@ public class TeleportManager extends TeleportManagerBase
 		// Remove all pipes matching the one provided
 		for(Iterator<ITeleportPipe> pipesIter = pipesInChannel.iterator(); pipesIter.hasNext(); )
 		{
+
 			ITeleportPipe pipe = pipesIter.next();
-			if(pipe.equals(pipeToRemove))
+			if(pipe.getPipeUUID() == pipeToRemove.getPipeUUID())
 			{
 				pipesIter.remove();
 			}

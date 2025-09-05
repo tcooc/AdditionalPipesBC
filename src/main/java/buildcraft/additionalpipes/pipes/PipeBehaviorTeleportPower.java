@@ -101,7 +101,7 @@ public class PipeBehaviorTeleportPower extends PipeBehaviorTeleport implements I
 		List<PipeBehaviorTeleportPower> sendingToList = new LinkedList<PipeBehaviorTeleportPower>();
 
 		// no connected pipes, leave!
-		if(connectedPipes.size() <= 0 || (state.ordinal() & 0x1) == 0)
+		if(connectedPipes.size() <= 0 || (state.ordinal() & States.SEND.ordinal()) == 0)
 		{
 			return 0;
 		}
@@ -139,7 +139,6 @@ public class PipeBehaviorTeleportPower extends PipeBehaviorTeleport implements I
 				if(powerEntry.isPipe)
 				{
 					PipeFlowPower nearbyFlow = (PipeFlowPower)(((TilePipeHolder)powerEntry.tile).getPipe().getFlow());
-					
 					// will uncomment when Buildcraft API is added
 					//nearbyFlow.addPower(powerEntry.orientation, dividedPowerToSend);
 				}
