@@ -5,6 +5,7 @@ import buildcraft.transport.tile.TilePipeHolder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -21,18 +22,20 @@ public class MessageTelePipeUpdate implements IMessage, IMessageHandler<MessageT
 	int _freq;
 	boolean _isPublic;
 	byte _state;
+    private EnumFacing _tpSide;
 	int _newData;
 	
     public MessageTelePipeUpdate()
     {
     }
 
-    public MessageTelePipeUpdate(BlockPos position, int freq, boolean isPublic, byte index)
+    public MessageTelePipeUpdate(BlockPos position, int freq, boolean isPublic, byte index, EnumFacing tpSide)
     {
     	this.position = position;
     	_freq = freq;
     	_isPublic = isPublic;
     	_state = index;
+        _tpSide = tpSide;
     }
 
     @Override
@@ -42,6 +45,7 @@ public class MessageTelePipeUpdate implements IMessage, IMessageHandler<MessageT
         _freq = buf.readInt();
         _isPublic = buf.readBoolean();
         _state = buf.readByte();
+        _tpSide = EnumFacing.values()[buf.readByte()];
     }
 
     @Override
@@ -51,6 +55,7 @@ public class MessageTelePipeUpdate implements IMessage, IMessageHandler<MessageT
         buf.writeInt(_freq);
         buf.writeBoolean(_isPublic);
         buf.writeByte(_state);
+        buf.writeByte(_tpSide.ordinal());
     }
 
     @Override
@@ -70,9 +75,14 @@ public class MessageTelePipeUpdate implements IMessage, IMessageHandler<MessageT
 			if(frequency < 0) {
 				frequency = 0;
 			}
+            EnumFacing tpSide = message._tpSide;
+            if (tpSide.ordinal() > 5){
+                tpSide = EnumFacing.values()[EnumFacing.DOWN.ordinal()];
+            }
 			pipe.setFrequency(frequency);
 			pipe.setState(message._state);
 			pipe.setPublic(message._isPublic);
+            pipe.setTeleportSide(tpSide);
 		}
     	
     	return null;

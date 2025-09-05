@@ -28,13 +28,10 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 	final private static double TELEPORTED_ITEM_SPEED = .1;
 	
 	// side of the pipe that teleported items enter and exit from
-	private EnumFacing teleportSide = null;
 	
 	public PipeBehaviorTeleportItems(IPipe pipe, NBTTagCompound tagCompound)
 	{
 		super(pipe, tagCompound, TeleportPipeType.ITEMS);
-		
-		teleportSide = EnumFacing.VALUES[tagCompound.getByte(TagStrings.TELEPORT_SIDE)];
 	}
 
 	public PipeBehaviorTeleportItems(IPipe pipe)
@@ -42,19 +39,6 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 		super(pipe, TeleportPipeType.ITEMS);
 	}
 
-	@Override
-	public NBTTagCompound writeToNbt()
-	{
-		NBTTagCompound nbt = super.writeToNbt();
-		
-		if(getTeleportSide() != null)
-		{
-			nbt.setByte(TagStrings.TELEPORT_SIDE, (byte) getTeleportSide().ordinal());
-		}
-		
-		return nbt;
-	}
-	
 	@Override
 	public boolean canConnect(EnumFacing face, PipeBehaviour other)
 	{
@@ -85,7 +69,7 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 	 * If this returns null, then the pipe is connected on no sides.
 	 * @return
 	 */
-	public EnumFacing getTeleportSide()
+/*	public EnumFacing getTeleportSide()
 	{
 		// teleportSide can only be calculated on the server
 		if(isClient())
@@ -126,7 +110,7 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 		}
 		
 		return teleportSide;
-	}
+	}*/
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PipeEventHandler

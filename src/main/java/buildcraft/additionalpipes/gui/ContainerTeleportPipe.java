@@ -10,9 +10,12 @@ import buildcraft.additionalpipes.pipes.TeleportManager;
 import buildcraft.additionalpipes.utils.Log;
 import buildcraft.lib.gui.ContainerBC_Neptune;
 import buildcraft.transport.tile.TilePipeHolder;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IContainerListener;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -25,6 +28,7 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 	private int freq;
 	private byte state;
 	private boolean isPublic;
+	private EnumFacing tpSide;
 	
 	//true if the provided pipe is sending items to other pipes
 	//and output locations should be shown on the ledger
@@ -88,37 +92,47 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 		for(IContainerListener crafter : listeners) {
 			if(freq != pipe.getFrequency()) {
 				crafter.sendWindowProperty(this, 0, pipe.getFrequency());
+				freq = pipe.getFrequency();
 			}
 			if(state != pipe.getState()) {
 				crafter.sendWindowProperty(this, 1, pipe.getState());
+				state = pipe.getState();
 			}
 			if(connectedPipesNew != connectedPipes) {
 				crafter.sendWindowProperty(this, 2, connectedPipesNew);
+				connectedPipes = connectedPipesNew;
 			}
 			if(isPublic != pipe.isPublic()) {
 				crafter.sendWindowProperty(this, 3, pipe.isPublic() ? 1 : 0);
+				isPublic = pipe.isPublic();
+			}
+			if(tpSide != pipe.getTeleportSide()) {
+				crafter.sendWindowProperty(this, 4, pipe.getTeleportSide().ordinal());
+				tpSide = pipe.getTeleportSide();
+				World world = pipe.pipe.getHolder().getPipeWorld();
+				IBlockState blockState = world.getBlockState(pipe.getPosition());
+				world.notifyNeighborsOfStateChange(pipe.getPosition(), blockState.getBlock(), true);
 			}
 		}
-		state = pipe.getState();
-		freq = pipe.getFrequency();
-		isPublic = pipe.isPublic();
-		connectedPipes = connectedPipesNew;
 	}
 
 	@Override
-	public void updateProgressBar(int i, int j) {
-		switch(i) {
+	public void updateProgressBar(int id, int data) {
+		switch(id) {
 		case 0:
-			pipe.setFrequency(j);
+			pipe.setFrequency(data);
 			break;
 		case 1:
-			pipe.setState((byte) j);
+			pipe.setState((byte) data);
 			break;
 		case 2:
-			connectedPipes = j;
+			connectedPipes = data;
 			break;
 		case 3:
-			pipe.setPublic((j == 1));
+			pipe.setPublic((data == 1));
+			break;
+		case 4:
+			pipe.setTeleportSide(EnumFacing.values()[data]);
 			break;
 		}
 	}

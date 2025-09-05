@@ -76,6 +76,12 @@ gui.teleport.receive_only=Receive Only
 gui.teleport.disabled=Disabled
 gui.teleport.public=Public
 gui.teleport.private=Private
+gui.side.down=Teleport Side: Bottom
+gui.side.up=Teleport Side: Top
+gui.side.north=Teleport Side: North
+gui.side.south=Teleport Side: South
+gui.side.west=Teleport Side: West
+gui.side.east=Teleport Side: East
 
 # name of "closed pipe is closed" trigger
 trigger.pipe_closed=Pipe Closed (Storing Items) 

@@ -1,6 +1,5 @@
 package buildcraft.additionalpipes.pipes;
 
-import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -54,6 +53,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	protected int[] network = new int[0]; // coordinates of connected pipes.  Used as a sort of cache variable by the teleport pipe GUI.
 	protected boolean isPublic = false;
 	protected UUID pipeUUID;
+	protected EnumFacing teleportSide = null;
 
 	public final TeleportPipeType type;
 
@@ -90,6 +90,8 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		else{
 			pipeUUID = UUID.randomUUID();
 		}
+
+		teleportSide = EnumFacing.VALUES[tagCompound.getByte(TagStrings.TELEPORT_SIDE)];
 
 /*		if(isServer())
 		{
@@ -163,6 +165,15 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	public void setPipeUUID(UUID pipeUUID){
 		this.pipeUUID = pipeUUID;
 	}
+
+	public EnumFacing getTeleportSide() {
+		return teleportSide;
+	}
+
+	public void setTeleportSide(EnumFacing teleportSide) {
+		this.teleportSide = teleportSide;
+	}
+
 	@Override
 	public TeleportPipeType getType()
 	{
@@ -333,6 +344,10 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		{
 			return false;
 		}
+
+		if (face == EnumFacing.VALUES[teleportSide.ordinal()]){
+			return false;
+		}
 		
 		return super.canConnect(face, other);
 	}
@@ -353,6 +368,11 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 
 		if (pipeUUID != null){
 			nbttagcompound.setString(TagStrings.PIPE_UUID, pipeUUID.toString());
+		}
+
+		if(teleportSide != null)
+		{
+			nbttagcompound.setByte(TagStrings.TELEPORT_SIDE, (byte) teleportSide.ordinal());
 		}
 		return nbttagcompound;
 	}

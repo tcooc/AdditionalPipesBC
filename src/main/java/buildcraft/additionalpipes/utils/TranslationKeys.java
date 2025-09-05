@@ -2,9 +2,9 @@ package buildcraft.additionalpipes.utils;
 
 public class TranslationKeys {
     public static final String ACCESS_DENIED = "message.ap.accessdenied";
-    public static final String TELEPORT_FREQ = "gui.tpr.frequency";
-    public static final String TELEPORT_COORDS = "gui.tpr.coordPair";
-    public static final String TELEPORT_LEDGER_OWNER = "gui.tpr.ledger.owner";
+    public static final String TELEPORT_FREQ = "gui.teleport.frequency";
+    public static final String TELEPORT_COORDS = "gui.teleport.coordPair";
+    public static final String TELEPORT_LEDGER_OWNER = "gui.teleport.ledger.owner";
     public static final String TELEPORT_SEND_RECEIVE = "gui.teleport.send_and_receive";
     public static final String TELEPORT_SEND_ONLY = "gui.teleport.send_only";
     public static final String TELEPORT_RECEIVE_ONLY = "gui.teleport.receive_only";
