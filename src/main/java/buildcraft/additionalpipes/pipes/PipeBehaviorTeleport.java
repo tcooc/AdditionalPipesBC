@@ -53,7 +53,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	protected int[] network = new int[0]; // coordinates of connected pipes.  Used as a sort of cache variable by the teleport pipe GUI.
 	protected boolean isPublic = false;
 	protected UUID pipeUUID;
-	protected EnumFacing teleportSide = null;
+	protected EnumFacing teleportSide;
 
 	public final TeleportPipeType type;
 
@@ -62,7 +62,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		super(pipe);
 		this.type = type;
 		this.pipeUUID = UUID.randomUUID();
-
+		teleportSide = EnumFacing.UP;
 /*		if(isServer())
 		{
 			TeleportManager.instance.add(this, frequency);
