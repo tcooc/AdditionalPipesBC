@@ -20,6 +20,7 @@ import buildcraft.lib.misc.EntityUtil;
 import buildcraft.transport.tile.TilePipeHolder;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -92,12 +93,6 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		}
 
 		teleportSide = EnumFacing.VALUES[tagCompound.getByte(TagStrings.TELEPORT_SIDE)];
-
-/*		if(isServer())
-		{
-			TeleportManager.instance.add(this, frequency);
-		}*/
-
 	}
 	
 	@Override
@@ -272,7 +267,6 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
         
         if (!player.world.isRemote) 
         {
-			Log.debug("[TeleportPipe] PipeUUID: " + pipeUUID);
         	BlockPos pipePos = pipe.getHolder().getPipePos();
         	player.openGui(AdditionalPipes.instance, GuiHandler.PIPE_TP, pipe.getHolder().getPipeWorld(), pipePos.getX(), pipePos.getY(), pipePos.getZ());
         }
@@ -289,26 +283,6 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		{
 			ITeleportPipe pipe = (ITeleportPipe)obj;
 			return pipe.getPipeUUID() == pipeUUID;
-			
-/*			if(pipe.getType() == getType())
-			{
-				if(pipe.getState() == getState())
-				{
-					if(pipe.isPublic() == isPublic())
-					{
-						if(Objects.equals(pipe.getOwnerUUID(), getOwnerUUID()))
-						{
-							if(Objects.equals(pipe.getPosition(), getPosition()))
-							{
-								if(pipe.getFrequency() == getFrequency())
-								{
-									return true;
-								}
-							}
-						}
-					}
-				}
-			}*/
 		}
 		
 		return false;
@@ -351,7 +325,15 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		
 		return super.canConnect(face, other);
 	}
-	
+
+	@Override
+	public boolean canConnect(EnumFacing face, TileEntity oTile) {
+		if (face == EnumFacing.VALUES[teleportSide.ordinal()]){
+			return false;
+		}
+
+		return super.canConnect(face, oTile);
+	}
 
 	@Override
 	public NBTTagCompound writeToNbt() 

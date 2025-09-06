@@ -10,12 +10,10 @@ import buildcraft.additionalpipes.pipes.TeleportManager;
 import buildcraft.additionalpipes.utils.Log;
 import buildcraft.lib.gui.ContainerBC_Neptune;
 import buildcraft.transport.tile.TilePipeHolder;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -109,9 +107,7 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 			if(tpSide != pipe.getTeleportSide()) {
 				crafter.sendWindowProperty(this, 4, pipe.getTeleportSide().ordinal());
 				tpSide = pipe.getTeleportSide();
-				World world = pipe.pipe.getHolder().getPipeWorld();
-				IBlockState blockState = world.getBlockState(pipe.getPosition());
-				world.notifyNeighborsOfStateChange(pipe.getPosition(), blockState.getBlock(), true);
+				pipe.pipe.markForUpdate();
 			}
 		}
 	}
