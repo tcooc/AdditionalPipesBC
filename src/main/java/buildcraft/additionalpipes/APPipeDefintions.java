@@ -1,7 +1,5 @@
 package buildcraft.additionalpipes;
 
-import com.google.common.collect.ImmutableSet;
-
 import buildcraft.additionalpipes.pipes.PipeBehaviorAddition;
 import buildcraft.additionalpipes.pipes.PipeBehaviorAdvWood;
 import buildcraft.additionalpipes.pipes.PipeBehaviorClosed;
@@ -14,18 +12,11 @@ import buildcraft.additionalpipes.pipes.PipeBehaviorTeleportFluids;
 import buildcraft.additionalpipes.pipes.PipeBehaviorTeleportItems;
 import buildcraft.additionalpipes.pipes.PipeBehaviorWaterPump;
 import buildcraft.additionalpipes.utils.PipeCreator;
-import buildcraft.api.mj.MjAPI;
-import buildcraft.api.recipes.AssemblyRecipeBasic;
-import buildcraft.api.recipes.IngredientStack;
 import buildcraft.api.transport.pipe.PipeApi;
 import buildcraft.api.transport.pipe.PipeDefinition;
 import buildcraft.api.transport.pipe.PipeDefinition.PipeDefinitionBuilder;
-import buildcraft.lib.recipe.AssemblyRecipeRegistry;
-import buildcraft.silicon.BCSiliconItems;
 import buildcraft.transport.BCTransportConfig;
-import buildcraft.transport.BCTransportItems;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 public class APPipeDefintions
@@ -93,7 +84,7 @@ public class APPipeDefintions
 		additionPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_addition").logic(PipeBehaviorAddition::new, PipeBehaviorAddition::new).define();
 		additionPipeItem = PipeCreator.createPipeItem(additionPipeDef);
 		
-		advWoodPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_adv_wood").texSuffixes("_output", "_input").logic(PipeBehaviorAdvWood::new, PipeBehaviorAdvWood::new).define();
+		advWoodPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_adv_wood").texSuffixes("_output", "_input").logic(PipeBehaviorAdvWood::new, PipeBehaviorAdvWood::new).enableColouring().define();
 		advWoodPipeItem = PipeCreator.createPipeItem(advWoodPipeDef);
 		
 		closedPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_closed").texSuffixes("_open", "_closed").logic(PipeBehaviorClosed::new, PipeBehaviorClosed::new).define();
@@ -105,7 +96,7 @@ public class APPipeDefintions
 		distributionPipeDef = distPipeDefBuilder.define();
 		distributionPipeItem = PipeCreator.createPipeItem(distributionPipeDef);
 		
-		gravityFeedPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_gravity_feed").texSuffixes("_up", "_sides").logic(PipeBehaviorGravityFeed::new, PipeBehaviorGravityFeed::new).define();
+		gravityFeedPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_gravity_feed").texSuffixes("_up", "_sides").logic(PipeBehaviorGravityFeed::new, PipeBehaviorGravityFeed::new).enableColouring().define();
 		gravityFeedPipeItem = PipeCreator.createPipeItem(gravityFeedPipeDef);
 		
 		PipeDefinitionBuilder priorityPipeDefBuilder = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_priority").logic(PipeBehaviorPriorityInsertion::new, PipeBehaviorPriorityInsertion::new);
@@ -117,16 +108,16 @@ public class APPipeDefintions
 		attachSidedSuffixes(jeweledPipeDefBuilder);
 		jeweledPipeDef = jeweledPipeDefBuilder.define();
 		jeweledPipeItem = PipeCreator.createPipeItem(jeweledPipeDef);
-		
+
 		itemsTeleportPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_teleport").logic(PipeBehaviorTeleportItems::new, PipeBehaviorTeleportItems::new).define();
 		itemsTeleportPipeItem = PipeCreator.createPipeItem(itemsTeleportPipeDef);	
 		
-		// add assembly recipe for Item Teleport Pipe
+/*		// add assembly recipe for Item Teleport Pipe (Deprecated)
 		ImmutableSet<IngredientStack> tpRecipeIngredients = ImmutableSet.<IngredientStack>of(
 				IngredientStack.of(new ItemStack(BCSiliconItems.redstoneChipset, 1, 4)),
 				IngredientStack.of(new ItemStack(BCTransportItems.pipeItemDiamond)),
 				IngredientStack.of(new ItemStack(BCSiliconItems.redstoneChipset, 1, 3)));
-		AssemblyRecipeRegistry.register(new AssemblyRecipeBasic("teleportPipe", 10000 * MjAPI.MJ, tpRecipeIngredients, new ItemStack(itemsTeleportPipeItem, 8)));
+		AssemblyRecipeRegistry.register(new AssemblyRecipeBasic("teleportPipe", 10000 * MjAPI.MJ, tpRecipeIngredients, new ItemStack(itemsTeleportPipeItem, 8)));*/
 		
 		liquidsTeleportPipeDef = new PipeDefinitionBuilder().flowFluid().idTexPrefix("pipe_fluids_teleport").logic(PipeBehaviorTeleportFluids::new, PipeBehaviorTeleportFluids::new).define();
 		liquidsTeleportPipeItem = PipeCreator.createPipeItem(liquidsTeleportPipeDef);
@@ -134,10 +125,10 @@ public class APPipeDefintions
 		//powerTeleportPipeDef = new PipeDefinitionBuilder().flowPower().idTexPrefix("pipe_power_teleport").logic(PipeBehaviorTeleportPower::new, PipeBehaviorTeleportPower::new).define();
 		//powerTeleportPipeItem = PipeCreator.createPipeItemAndRecipe(1, powerTeleportPipeDef, true, new Object[] {"dustRedstone", itemsTeleportPipeItem});
 		
-		itemsSwitchPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_switch").texSuffixes("_closed", "_open").logic(PipeBehaviorSwitch::new, PipeBehaviorSwitch::new).define();
+		itemsSwitchPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_switch").texSuffixes("_closed", "_open").logic(PipeBehaviorSwitch::new, PipeBehaviorSwitch::new).enableColouring().define();
 		itemsSwitchPipeItem = PipeCreator.createPipeItem(itemsSwitchPipeDef);
 		
-		fluidsSwitchPipeDef = new PipeDefinitionBuilder().flowFluid().idTexPrefix("pipe_fluids_switch").texSuffixes("_closed", "_open").logic(PipeBehaviorSwitch::new, PipeBehaviorSwitch::new).define();
+		fluidsSwitchPipeDef = new PipeDefinitionBuilder().flowFluid().idTexPrefix("pipe_fluids_switch").texSuffixes("_closed", "_open").logic(PipeBehaviorSwitch::new, PipeBehaviorSwitch::new).enableColouring().define();
 		fluidsSwitchPipeItem = PipeCreator.createPipeItem(fluidsSwitchPipeDef);
 		
 		powerSwitchPipeDef = new PipeDefinitionBuilder().flowPower().idTexPrefix("pipe_power_switch").texSuffixes("_closed", "_open").logic(PipeBehaviorSwitch::new, PipeBehaviorSwitch::new).define();

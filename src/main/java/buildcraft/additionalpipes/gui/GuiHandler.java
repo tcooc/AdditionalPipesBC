@@ -39,7 +39,7 @@ public class GuiHandler implements IGuiHandler {
 		case PIPE_DIST:
 			return new ContainerDistributionPipe((PipeBehaviorDistribution) ((TilePipeHolder) tile).getPipe().getBehaviour());
 		case PIPE_WOODEN_ADV:
-			return new ContainerAdvancedWoodPipe(player, player.inventory, (PipeBehaviorAdvWood) ((TilePipeHolder) tile).getPipe().getBehaviour());
+			return new ContainerAdvancedWoodPipe(player, (PipeBehaviorAdvWood) ((TilePipeHolder) tile).getPipe().getBehaviour());
 		case PIPE_CLOSED:
 			return new ContainerPipeClosed(player, (PipeBehaviorClosed) ((TilePipeHolder) tile).getPipe().getBehaviour());
 		case PIPE_PRIORITY:
@@ -67,7 +67,7 @@ public class GuiHandler implements IGuiHandler {
 		case PIPE_DIST:
 			return new GuiDistributionPipe((PipeBehaviorDistribution) ((TilePipeHolder) tile).getPipe().getBehaviour());
 		case PIPE_WOODEN_ADV:
-			return new GuiAdvancedWoodPipe(player, player.inventory, (PipeBehaviorAdvWood) ((TilePipeHolder) tile).getPipe().getBehaviour());
+			return new GuiAdvancedWoodPipe(player, (PipeBehaviorAdvWood) ((TilePipeHolder) tile).getPipe().getBehaviour());
 		case PIPE_CLOSED:
 			return new GuiPipeClosed(player, (PipeBehaviorClosed) ((TilePipeHolder) tile).getPipe().getBehaviour());
 		case PIPE_PRIORITY:

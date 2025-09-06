@@ -1,6 +1,9 @@
 package buildcraft.additionalpipes.gui;
 
 import buildcraft.additionalpipes.utils.TranslationKeys;
+import buildcraft.api.core.render.ISprite;
+import buildcraft.lib.misc.SpriteUtil;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
@@ -17,6 +20,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
@@ -65,6 +70,33 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 	
 	}
 
+	protected class LedgerPipeOwnership extends Ledger_Neptune {
+
+		final static int OVERLAY_COLOR = 0xFF_E0_F0_FF;
+
+		public LedgerPipeOwnership() {
+			super(GuiTeleportPipe.this.mainGui, OVERLAY_COLOR, true);
+			this.title = TranslationKeys.TELEPORT_LEDGER_OWNERSHIP;
+
+			appendText(() -> ((!Objects.equals(pipe.getOwnerName(), ""))? pipe.getOwnerName() : "no-one"), 0);
+
+			calculateMaxSize();
+		}
+
+		@Override
+		protected void drawIcon(double x, double y) {
+			if (pipe.getOwnerUUID() != null){
+				GameProfile ownerProfile = new GameProfile(pipe.getOwnerUUID(), pipe.getOwnerName());
+				ISprite sprite = SpriteUtil.getFaceSprite(ownerProfile);
+				GuiIcon.draw(sprite, x, y, x + 16, y + 16);
+				sprite = SpriteUtil.getFaceSprite(ownerProfile);
+				if (sprite != null) {
+					GuiIcon.draw(sprite, x - 0.5, y - 0.5, x + 17, y + 17);
+				}
+			}
+		}
+	}
+
 	protected enum BtnIndex{
 		FreqNeg100, FreqNeg10, FreqNeg1, FreqPos1, FreqPos10, FreqPos100, Mode, IsPublic, TP_Side
 	}
@@ -79,7 +111,10 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 		container = (ContainerTeleportPipe) inventorySlots;
 		xSize = 228;
 		ySize = 127;
-		
+
+		if (pipe.getOwnerUUID() != null){
+			mainGui.shownElements.add(new LedgerPipeOwnership());}
+
 		mainGui.shownElements.add(new TeleportPipeLedger());
 	}
 
@@ -116,9 +151,9 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 	{
 		fontRenderer.drawString(I18n.format(pipe.getUnlocalizedName()), guiLeft + 70, guiTop + 6, 0x0a0c84, false);
 		fontRenderer.drawString(I18n.format(TranslationKeys.TELEPORT_FREQ, pipe.getFrequency()), guiLeft + 16, guiTop + 66, 0x404040);
-		fontRenderer.drawString(I18n.format(TranslationKeys.TELEPORT_COORDS, pipe.getPos().getX(), pipe.getPos().getY(), pipe.getPos().getZ()), guiLeft + 110, guiTop + 20, 0x404040);
+		fontRenderer.drawString(I18n.format(TranslationKeys.TELEPORT_COORDS, pipe.getPos().getX(), pipe.getPos().getY(), pipe.getPos().getZ()), guiLeft + 12, guiTop + 20, 0x404040);
 		
-		fontRenderer.drawString(I18n.format(TranslationKeys.TELEPORT_LEDGER_OWNER, pipe.getOwnerName()), guiLeft + 12, guiTop + 20, 0x404040);
+		//fontRenderer.drawString(I18n.format(TranslationKeys.TELEPORT_LEDGER_OWNER, pipe.getOwnerName()), guiLeft + 12, guiTop + 20, 0x404040);
 		
 		switch(pipe.getState()) {
 		case 3:

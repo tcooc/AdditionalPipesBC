@@ -8,6 +8,7 @@
 
 package buildcraft.additionalpipes.gui;
 
+import buildcraft.lib.gui.GuiBC8;
 import org.lwjgl.opengl.GL11;
 
 import buildcraft.additionalpipes.network.PacketHandler;
@@ -15,7 +16,6 @@ import buildcraft.additionalpipes.network.message.MessageAdvWoodPipe;
 import buildcraft.additionalpipes.pipes.PipeBehaviorAdvWood;
 import buildcraft.additionalpipes.textures.Textures;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -23,7 +23,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class GuiAdvancedWoodPipe extends GuiContainer {
+public class GuiAdvancedWoodPipe extends GuiBC8<ContainerAdvancedWoodPipe> {
 
 	int inventoryRows = 1;
 	IInventory playerInventory;
@@ -32,15 +32,20 @@ public class GuiAdvancedWoodPipe extends GuiContainer {
 
 	int guiX, guiY; 
 	
-	public GuiAdvancedWoodPipe(EntityPlayer player, IInventory playerInventory, PipeBehaviorAdvWood pipe)
+	public GuiAdvancedWoodPipe(EntityPlayer player, PipeBehaviorAdvWood pipe)
 	{
-		super(new ContainerAdvancedWoodPipe(player, playerInventory, pipe));
-		this.playerInventory = playerInventory;
+		super(new ContainerAdvancedWoodPipe(player, pipe));
+		this.playerInventory = player.inventory;
 		this.pipe = pipe;
 		// container = theContainer;
-		xSize = 175;
-		ySize = 156;
+		xSize = 176;
+		ySize = 155;
 
+	}
+
+	@Override
+	protected boolean shouldAddHelpLedger() {
+		return false;
 	}
 
 	@Override
@@ -49,7 +54,7 @@ public class GuiAdvancedWoodPipe extends GuiContainer {
 		super.initGui();
 		guiX = (width - xSize) / 2;
 		guiY = (height - ySize) / 2;
-		buttons[0] = new GuiButton(1, guiX + 8, guiY + 40, 140, 20, "");
+		buttons[0] = new GuiButton(1, guiLeft + 7, guiTop + 38, 140, 20, "");
 		buttonList.add(buttons[0]);
 	}
 	
@@ -61,8 +66,10 @@ public class GuiAdvancedWoodPipe extends GuiContainer {
     }
 
 	@Override
-	protected void drawGuiContainerForegroundLayer(int p1, int p2) 
+	protected void drawForegroundLayer()
 	{
+		fontRenderer.drawString(I18n.format("gui.advwood_pipe.title"), guiLeft + 8, guiTop + 6, 4210752);
+
 		if(pipe.getExclude()) 
 		{
 			buttons[0].displayString = I18n.format("gui.advwood_pipe.blacklist");
@@ -71,8 +78,10 @@ public class GuiAdvancedWoodPipe extends GuiContainer {
 		{
 			buttons[0].displayString = I18n.format("gui.advwood_pipe.whitelist");
 		}
-		
-		fontRenderer.drawString(I18n.format("gui.advwood_pipe.title"), guiX + 42, guiY + 22, 4210752);
+
+		double invY = mainGui.rootElement.getY() + ySize - 94;
+		fontRenderer.drawString(I18n.format("gui.inventory"), (int) mainGui.rootElement.getX() + 8, (int) invY, 0x404040);
+
 	}
 
 	@Override
@@ -86,13 +95,10 @@ public class GuiAdvancedWoodPipe extends GuiContainer {
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-
+	protected void drawBackgroundLayer(float partialTicks) {
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.renderEngine.bindTexture(Textures.GUI_ADVANCEDWOOD);
-		int j1 = (width - xSize) / 2;
-		int k = (height - ySize) / 2;
-		drawTexturedModalRect(j1, k, 0, 0, xSize, ySize);
+		drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 
 }

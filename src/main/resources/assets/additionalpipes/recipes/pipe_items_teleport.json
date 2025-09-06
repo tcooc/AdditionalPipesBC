@@ -1,0 +1,21 @@
+{
+	"type": "forge:ore_shaped",
+	"pattern":[
+		"DgD"
+	],
+	"key": {
+		"D": {
+			"type": "forge:ore_dict",
+			"ore": "gearDiamond"
+		},
+		"g": {
+			"type": "forge:ore_dict",
+			"ore": "blockGlass"
+		}
+	},
+	"result": {
+		"item": "additionalpipes:pipe_items_teleport",
+		"data": 0
+	}
+
+}

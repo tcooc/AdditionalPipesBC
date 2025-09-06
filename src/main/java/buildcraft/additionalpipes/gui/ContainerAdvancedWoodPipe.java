@@ -13,7 +13,6 @@ import buildcraft.lib.gui.ContainerBC_Neptune;
 import buildcraft.transport.tile.TilePipeHolder;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IContainerListener;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
@@ -23,7 +22,7 @@ public class ContainerAdvancedWoodPipe extends ContainerBC_Neptune {
 	private boolean exclude;
 	private PipeBehaviorAdvWood pipe;
 
-	public ContainerAdvancedWoodPipe(EntityPlayer player, IInventory playerInventory, PipeBehaviorAdvWood pipe) {
+	public ContainerAdvancedWoodPipe(EntityPlayer player, PipeBehaviorAdvWood pipe) {
 		super(player);
 		this.pipe = pipe;
 		exclude = !pipe.getExclude(); // force a network update
@@ -35,13 +34,13 @@ public class ContainerAdvancedWoodPipe extends ContainerBC_Neptune {
 
 		for(int l = 0; l < 3; l++) {
 			for(int k1 = 0; k1 < 9; k1++) {
-				addSlotToContainer(new Slot(playerInventory, k1 + l * 9 + 9, 8 + k1 * 18, 76 + l * 18));
+				addSlotToContainer(new Slot(player.inventory, k1 + l * 9 + 9, 8 + k1 * 18, 73 + l * 18));
 			}
 
 		}
 
 		for(int i1 = 0; i1 < 9; i1++) {
-			addSlotToContainer(new Slot(playerInventory, i1, 8 + i1 * 18, 134));
+			addSlotToContainer(new Slot(player.inventory, i1, 8 + i1 * 18, 131));
 		}
 	}
 
