@@ -32,9 +32,9 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 		
 		public TeleportPipeLedger() {
 			super(GuiTeleportPipe.this.mainGui, OVERLAY_COLOR, true);
-			this.title = "gui.teleport.ledger.title";
+			this.title = TranslationKeys.TELEPORT_LEDGER_TITLE;
 			
-			appendText(() -> ((pipe.getState() & 0x1) >= 1) ? I18n.format("gui.teleport.ledger.outputs", container.connectedPipes) : I18n.format("gui.teleport.ledger.inputs", container.connectedPipes), headerColour);
+			appendText(() -> ((pipe.getState() & 0x1) >= 1) ? I18n.format(TranslationKeys.TELEPORT_LEDGER_OUTPUT, container.connectedPipes) : I18n.format(TranslationKeys.TELEPORT_LEDGER_INPUT, container.connectedPipes), headerColour);
 			
 			// print up to the first 3 connected pipes, with 3 coords each
 			for(int coordIndex = 0; coordIndex < 3; coordIndex += 3)
@@ -201,7 +201,7 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 			freq = Integer.MAX_VALUE -101;
 		}
 
-		if (tpSide > 5){
+		if (tpSide >= EnumFacing.values().length){
 			tpSide = 0;}
 
 		MessageTelePipeUpdate packet = new MessageTelePipeUpdate(pipe.getPos(), freq, isPublic, state, EnumFacing.values()[tpSide]);

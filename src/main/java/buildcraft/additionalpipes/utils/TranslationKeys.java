@@ -5,6 +5,9 @@ public class TranslationKeys {
     public static final String TELEPORT_FREQ = "gui.teleport.frequency";
     public static final String TELEPORT_COORDS = "gui.teleport.coordPair";
     public static final String TELEPORT_LEDGER_OWNER = "gui.teleport.ledger.owner";
+    public static final String TELEPORT_LEDGER_TITLE ="gui.teleport.ledger.title";
+    public static final String TELEPORT_LEDGER_OUTPUT = "gui.teleport.ledger.outputs";
+    public static final String TELEPORT_LEDGER_INPUT = "gui.teleport.ledger.inputs";
     public static final String TELEPORT_SEND_RECEIVE = "gui.teleport.send_and_receive";
     public static final String TELEPORT_SEND_ONLY = "gui.teleport.send_only";
     public static final String TELEPORT_RECEIVE_ONLY = "gui.teleport.receive_only";
