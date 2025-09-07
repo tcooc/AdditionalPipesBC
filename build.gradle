@@ -59,7 +59,7 @@ repositories {
 }
 
 dependencies {
-	compile 'BuildCraft:buildcraft:7.99.24.1:dev'
+	compile name: 'buildcraft', version: "7.99.24.1", classifier: "dev", ext: 'jar'
 	
 	// compile against the JEI API but do not include it at runtime
 	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
