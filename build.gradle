@@ -17,7 +17,7 @@ group= "com.buildcraft.additionalpipes"
 archivesBaseName = "additionalpipes"
 
 minecraft {
-    version = "${mc_version}-14.23.0.2544"
+    version = "${mc_version}-14.23.5.2847"
     runDir = "minecraft"
 	mappings = "snapshot_20171120"
 
@@ -48,7 +48,7 @@ repositories {
 }
 
 dependencies {
-	compile name: 'buildcraft', version: "7.99.24.1", classifier: "dev", ext: 'jar'
+	compileOnly name: 'buildcraft', version: "7.99.24.1", classifier: "dev", ext: 'jar'
 	
 	// compile against the JEI API but do not include it at runtime
 	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
