@@ -34,13 +34,13 @@ public class ContainerAdvancedWoodPipe extends ContainerBC_Neptune {
 
 		for(int l = 0; l < 3; l++) {
 			for(int k1 = 0; k1 < 9; k1++) {
-				addSlotToContainer(new Slot(player.inventory, k1 + l * 9 + 9, 8 + k1 * 18, 73 + l * 18));
+				addSlotToContainer(new Slot(player.inventory, k1 + l * 9 + 9, 8 + k1 * 18, 76 + l * 18));
 			}
 
 		}
 
 		for(int i1 = 0; i1 < 9; i1++) {
-			addSlotToContainer(new Slot(player.inventory, i1, 8 + i1 * 18, 131));
+			addSlotToContainer(new Slot(player.inventory, i1, 8 + i1 * 18, 134));
 		}
 	}
 

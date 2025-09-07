@@ -39,7 +39,7 @@ public class GuiAdvancedWoodPipe extends GuiBC8<ContainerAdvancedWoodPipe> {
 		this.pipe = pipe;
 		// container = theContainer;
 		xSize = 176;
-		ySize = 155;
+		ySize = 158;
 
 	}
 
@@ -79,7 +79,7 @@ public class GuiAdvancedWoodPipe extends GuiBC8<ContainerAdvancedWoodPipe> {
 			buttons[0].displayString = I18n.format("gui.advwood_pipe.whitelist");
 		}
 
-		double invY = mainGui.rootElement.getY() + ySize - 94;
+		double invY = mainGui.rootElement.getY() + ySize - 95;
 		fontRenderer.drawString(I18n.format("gui.inventory"), (int) mainGui.rootElement.getX() + 8, (int) invY, 0x404040);
 
 	}
