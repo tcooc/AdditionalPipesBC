@@ -60,7 +60,7 @@ public class PipeBehaviorTeleportFluids extends PipeBehaviorTeleport
 			for(EnumFacing side : EnumFacing.VALUES)
 			{
 				int fluidFromThisSide = Math.min(event.totalOffered[side.ordinal()], totalMBNeeded);
-				
+
 				event.actuallyOffered[side.ordinal()] = fluidFromThisSide;
 				totalMBNeeded -= fluidFromThisSide;
 			}
@@ -74,15 +74,21 @@ public class PipeBehaviorTeleportFluids extends PipeBehaviorTeleport
 		if(canSend())
 		{
 			ArrayList<PipeBehaviorTeleportFluids> connectedPipes = (ArrayList)TeleportManager.instance.getConnectedPipes(this, false, true);
+
+
+			int totalRecieved = 0;
+			for (EnumFacing side : EnumFacing.VALUES){
+				if (side == teleportSide){continue;}
+				totalRecieved += event.fluidEnteringCentre[side.ordinal()];
+			}
+
+			Log.debug("[FluidTeleportPipe] Got " + totalRecieved + " MB of fluid");
 			
-			Log.debug("[FluidTeleportPipe] Got " + event.fluid.amount + " MB of fluid");
-			
-			FluidStack remaining = event.fluid.copy();
+			FluidStack remaining = new FluidStack(event.fluid.getFluid(), totalRecieved);
 						
 			// loop until we're out of fluid, or until no pipes need it
 			while(remaining.amount > 0 && connectedPipes.size() > 0)
 			{
-				
 				// divide the fluid into apportionments for each pipe
 				FluidStack maxPerIteration = remaining.copy();
 				maxPerIteration.amount /= connectedPipes.size(); // it's OK if we have rounding errors, it will get resolved eventually
@@ -110,7 +116,7 @@ public class PipeBehaviorTeleportFluids extends PipeBehaviorTeleport
 			
 			if(remaining.amount > 0)
 			{
-				Log.debug("PipeLiquidsTeleport's PreMoveToCentre event handler requested more fluid than can be handled!  " + remaining.amount + " MB is left and will be rejected.");
+				Log.warn("PipeLiquidsTeleport's PreMoveToCentre event handler requested more fluid than can be handled!  " + remaining.amount + " MB is left and will be rejected.");
 			}
 			
 			// update event data
