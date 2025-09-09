@@ -49,7 +49,8 @@ public class PipeBehaviorSwitch extends APPipe
 		if(canConnect != newCanConnect)
 		{
 			canConnect = newCanConnect;
-			pipe.getHolder().scheduleNetworkUpdate(PipeMessageReceiver.BEHAVIOUR);
+			//pipe.getHolder().scheduleNetworkUpdate(PipeMessageReceiver.BEHAVIOUR);
+			pipe.markForUpdate();
 		}
 	}
 	
