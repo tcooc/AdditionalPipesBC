@@ -1,13 +1,15 @@
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath("com.anatawa12.forge:ForgeGradle:2.3-1.0.+") {
+            changing = true
+        }
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
@@ -29,9 +31,15 @@ minecraft {
 }
 // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 repositories {
+
+	// Adding a "fake" ivy repository to allow downloading buildcraft from its URL
+	// See https://stackoverflow.com/a/34327202/7083698
 	ivy {
-		name "BuildCraft"
-		artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-main-[revision]-[classifier].[ext]"
+		url 'http://www.mod-buildcraft.com/releases/'
+		patternLayout {
+			artifact "[organization]/[revision]/[module]-main-[revision]-[classifier].jar"
+		}
+		metadataSources { artifact() }
 	}
 	maven 
 	{
@@ -48,7 +56,7 @@ repositories {
 }
 
 dependencies {
-	compileOnly name: 'buildcraft', version: "7.99.24.1", classifier: "dev", ext: 'jar'
+	compile 'BuildCraft:buildcraft:7.99.24.1:dev'
 	
 	// compile against the JEI API but do not include it at runtime
 	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
@@ -97,4 +105,12 @@ processResources
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'dev'
+}
+
+// Download source jars for Eclipse
+eclipse {
+    classpath {
+        downloadJavadoc = true
+        downloadSources = true
+    }
 }
