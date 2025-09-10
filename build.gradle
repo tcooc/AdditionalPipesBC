@@ -29,13 +29,18 @@ repositories {
 
 	// Adding a "fake" ivy repository to allow downloading buildcraft from its URL
 	// See https://stackoverflow.com/a/34327202/7083698
-	ivy {
+	def buildcraftRepo = ivy {
 		url 'http://www.mod-buildcraft.com/releases/'
 		patternLayout {
 			artifact "[organization]/[revision]/[module]-main-[revision]-[classifier].jar"
 		}
 		metadataSources { artifact() } 
 	}
+	exclusiveContent {
+        forRepositories(buildcraftRepo)
+        filter { includeGroup("BuildCraft") }
+    }
+	
 	maven 
 	{
 		// location of the maven that hosts JEI files
