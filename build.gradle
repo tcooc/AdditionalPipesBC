@@ -32,21 +32,8 @@ minecraft {
 // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 repositories {
 
-	// Adding a "fake" ivy repository to allow downloading buildcraft from its URL
-	// See https://stackoverflow.com/a/34327202/7083698
-	def buildcraftRepo = ivy {
-		url 'http://www.mod-buildcraft.com/releases/'
-		patternLayout {
-			artifact "[organization]/[revision]/[module]-main-[revision]-[classifier].jar"
-		}
-		metadataSources { artifact() }
-	}
-	exclusiveContent {
-        forRepositories(buildcraftRepo)
-        filter { includeGroup("BuildCraft") }
-    }
-	
-	maven 
+	mavenCentral()
+	maven
 	{
 		// location of the maven that hosts JEI files
     	name = "Progwml6 maven"
@@ -58,6 +45,17 @@ repositories {
     	name = "ModMaven"
     	url = "modmaven.k-4u.nl"
 	}
+
+	// Adding a "fake" ivy repository to allow downloading buildcraft from its URL
+	// See https://stackoverflow.com/a/34327202/7083698
+	ivy {
+		url 'http://www.mod-buildcraft.com/releases/'
+		patternLayout {
+			artifact "[organization]/[revision]/[module]-main-[revision]-[classifier].jar"
+		}
+		metadataSources { artifact() }
+	}
+
 }
 
 dependencies {
