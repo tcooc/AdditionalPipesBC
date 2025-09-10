@@ -14,7 +14,6 @@ import java.util.LinkedList;
 import buildcraft.additionalpipes.api.TeleportPipeType;
 import buildcraft.additionalpipes.utils.Log;
 import buildcraft.api.transport.pipe.IPipe;
-import buildcraft.api.transport.pipe.PipeBehaviour;
 import buildcraft.api.transport.pipe.PipeEventHandler;
 import buildcraft.api.transport.pipe.PipeEventItem;
 import buildcraft.transport.pipe.flow.PipeFlowItems;
@@ -27,13 +26,10 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 	final private static double TELEPORTED_ITEM_SPEED = .1;
 	
 	// side of the pipe that teleported items enter and exit from
-	private EnumFacing teleportSide = null;
 	
 	public PipeBehaviorTeleportItems(IPipe pipe, NBTTagCompound tagCompound)
 	{
 		super(pipe, tagCompound, TeleportPipeType.ITEMS);
-		
-		teleportSide = EnumFacing.VALUES[tagCompound.getByte("teleportSide")];
 	}
 
 	public PipeBehaviorTeleportItems(IPipe pipe)
@@ -41,91 +37,6 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 		super(pipe, TeleportPipeType.ITEMS);
 	}
 
-	@Override
-	public NBTTagCompound writeToNbt()
-	{
-		NBTTagCompound nbt = super.writeToNbt();
-		
-		if(getTeleportSide() != null)
-		{
-			nbt.setByte("teleportSide", (byte) getTeleportSide().ordinal());
-		}
-		
-		return nbt;
-	}
-	
-	@Override
-	public boolean canConnect(EnumFacing face, PipeBehaviour other)
-	{
-		// can't connect to all 6 sides since one side has to be the teleport side
-		int numConnectedSides = 0; 
-		for(EnumFacing direction : EnumFacing.VALUES)
-		{
-			if(pipe.isConnected(direction))
-			{
-				++numConnectedSides;
-			}
-		}
-		
-		if(numConnectedSides >= 5)
-		{
-			return false;
-		}
-		
-		return super.canConnect(face, other);
-	}
-	
-	/**
-	 * Get the side of the pipe that items are teleported into and out of.
-	 * Items that come from this side are not teleported again.
-	 * 
-	 * The teleport side will change only if a pipe is connected to teleportSide, or disconnected from the opposite of teleportSide.
-	 * 
-	 * If this returns null, then the pipe is connected on no sides.
-	 * @return
-	 */
-	public EnumFacing getTeleportSide()
-	{
-		// teleportSide can only be calculated on the server
-		if(isClient())
-		{
-			return null;
-		}
-		
-		// check if we need to recalculate the teleport side
-		if(teleportSide == null || pipe.isConnected(teleportSide) || !pipe.isConnected(teleportSide.getOpposite()))
-		{
-			Log.debug("[ItemTeleportPipe]" + getPosition().toString() + " Recalculating teleport side...");
-			teleportSide = null;
-			
-			boolean allSidesConnected = true;
-			
-			// for recalculation: 
-			// find the first unconnected side that is opposite to a connected side
-			for(EnumFacing side : EnumFacing.VALUES)
-			{
-				//Log.debug("isConnected(" + side + ") = " + pipe.isConnected(side));
-				if(!pipe.isConnected(side) && pipe.isConnected(side.getOpposite()))
-				{
-					teleportSide = side;
-					break;
-				}
-				
-				allSidesConnected = allSidesConnected && pipe.isConnected(side);
-			}
-			
-			if(teleportSide == null && allSidesConnected)
-			{
-				// should never happen -- just arbitrarily choose down.
-				teleportSide = EnumFacing.DOWN;
-			}
-			
-			Log.debug("[ItemTeleportPipe]" + getPosition().toString() + " Teleport side set to " + String.valueOf(teleportSide));
-
-		}
-		
-		return teleportSide;
-	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@PipeEventHandler
@@ -146,7 +57,7 @@ public class PipeBehaviorTeleportItems extends PipeBehaviorTeleport
 		ArrayList<PipeBehaviorTeleportItems> connectedTeleportPipes = (ArrayList)TeleportManager.instance.getConnectedPipes(this, false, true);
 		
 		// no teleport pipes connected, use default
-		if(connectedTeleportPipes.size() <= 0 || (state & 0x1) == 0) {
+		if(connectedTeleportPipes.size() <= 0 || (state.ordinal() & States.SEND.ordinal()) == 0) {
 			return;
 		}
 

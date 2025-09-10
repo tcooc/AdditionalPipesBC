@@ -52,7 +52,6 @@ public class TeleportManager extends TeleportManagerBase
 	@Override
 	public void add(ITeleportPipe newPipe, int frequency)
 	{
-		
 		Collection<ITeleportPipe> pipesInChannel = pipes.get(newPipe.getType()).get(frequency);
 		
 		// check if this pipe was left in the teleport manager because it didn't unload cleanly for some reason
@@ -60,7 +59,7 @@ public class TeleportManager extends TeleportManagerBase
 		for(Iterator<ITeleportPipe> pipesIter = pipesInChannel.iterator(); pipesIter.hasNext(); )
 		{
 			ITeleportPipe pipe = pipesIter.next();
-			if(pipe.equals(newPipe))
+			if(pipe.getPipeUUID() == newPipe.getPipeUUID())
 			{
 				pipesIter.remove();
 			}
@@ -84,8 +83,9 @@ public class TeleportManager extends TeleportManagerBase
 		// Remove all pipes matching the one provided
 		for(Iterator<ITeleportPipe> pipesIter = pipesInChannel.iterator(); pipesIter.hasNext(); )
 		{
+
 			ITeleportPipe pipe = pipesIter.next();
-			if(pipe.equals(pipeToRemove))
+			if(pipe.getPipeUUID() == pipeToRemove.getPipeUUID())
 			{
 				pipesIter.remove();
 			}

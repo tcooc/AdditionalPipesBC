@@ -46,6 +46,8 @@ public interface ITeleportPipe
 
 	public String getOwnerName();
 
+	public UUID getPipeUUID();
+
 	public TilePipeHolder getContainer();
 	
 	/**

@@ -14,14 +14,19 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "6.0.0.8"
+version = "6.0.0.10"
 group= "com.buildcraft.additionalpipes" 
 archivesBaseName = "additionalpipes"
 
 minecraft {
-    version = "${mc_version}-14.23.0.2544"
+    version = "${mc_version}-14.23.5.2847"
     runDir = "minecraft"
 	mappings = "snapshot_20171120"
+
+    if  (!developmentEnvironmentUserName.isEmpty()){
+        clientRunArgs +=['--username', developmentEnvironmentUserName.toString()]
+    }
+
 
 }
 // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -48,18 +53,19 @@ repositories {
 		patternLayout {
 			artifact "[organization]/[revision]/[module]-main-[revision]-[classifier].jar"
 		}
-		metadataSources { artifact() } 
+		metadataSources { artifact() }
 	}
-	
+
 }
 
 dependencies {
-	compile 'BuildCraft:buildcraft:7.99.24.1:dev'
+	implementation('BuildCraft:buildcraft:7.99.24.1:dev')
+
 	
 	// compile against the JEI API but do not include it at runtime
 	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
 	// at runtime, use the full JEI jar
-	runtime "mezz.jei:jei_${mc_version}:${jei_version}"
+    runtimeOnly "mezz.jei:jei_${mc_version}:${jei_version}"
 }
 // 30 96 254
 sourceSets {

@@ -13,6 +13,7 @@ import buildcraft.transport.tile.TilePipeHolder;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IContainerListener;
+import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -25,6 +26,7 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 	private int freq;
 	private byte state;
 	private boolean isPublic;
+	private EnumFacing tpSide;
 	
 	//true if the provided pipe is sending items to other pipes
 	//and output locations should be shown on the ledger
@@ -40,7 +42,7 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 
 		//set these variables to invalid values so that they will be updated
 		state = -1;
-		isPublic = !pipe.isPublic;
+		isPublic = !pipe.isPublic();
 		freq = -1;
 		
 		isSendingPipe = pipe.canSend();
@@ -56,7 +58,7 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 				locations[3 * i + 2] = connectedPipe.getContainer().getPos().getZ();
 			}
 			
-			MessageTelePipeData message = new MessageTelePipeData(pipe.getPos(), locations, pipe.ownerUUID, pipe.ownerName);
+			MessageTelePipeData message = new MessageTelePipeData(pipe.getPos(), locations, pipe.getOwnerUUID(), pipe.getOwnerName());
 			PacketHandler.INSTANCE.sendTo(message, (EntityPlayerMP) player);
 			
 			//save the pipe's old frequency so it can be removed later
@@ -88,37 +90,45 @@ public class ContainerTeleportPipe extends ContainerBC_Neptune {
 		for(IContainerListener crafter : listeners) {
 			if(freq != pipe.getFrequency()) {
 				crafter.sendWindowProperty(this, 0, pipe.getFrequency());
+				freq = pipe.getFrequency();
 			}
-			if(state != pipe.state) {
-				crafter.sendWindowProperty(this, 1, pipe.state);
+			if(state != pipe.getState()) {
+				crafter.sendWindowProperty(this, 1, pipe.getState());
+				state = pipe.getState();
 			}
 			if(connectedPipesNew != connectedPipes) {
 				crafter.sendWindowProperty(this, 2, connectedPipesNew);
+				connectedPipes = connectedPipesNew;
 			}
-			if(isPublic != pipe.isPublic) {
-				crafter.sendWindowProperty(this, 3, pipe.isPublic ? 1 : 0);
+			if(isPublic != pipe.isPublic()) {
+				crafter.sendWindowProperty(this, 3, pipe.isPublic() ? 1 : 0);
+				isPublic = pipe.isPublic();
+			}
+			if(tpSide != pipe.getTeleportSide()) {
+				crafter.sendWindowProperty(this, 4, pipe.getTeleportSide().ordinal());
+				tpSide = pipe.getTeleportSide();
+				pipe.pipe.markForUpdate();
 			}
 		}
-		state = pipe.state;
-		freq = pipe.getFrequency();
-		isPublic = pipe.isPublic;
-		connectedPipes = connectedPipesNew;
 	}
 
 	@Override
-	public void updateProgressBar(int i, int j) {
-		switch(i) {
+	public void updateProgressBar(int id, int data) {
+		switch(id) {
 		case 0:
-			pipe.setFrequency(j);
+			pipe.setFrequency(data);
 			break;
 		case 1:
-			pipe.state = (byte) j;
+			pipe.setState((byte) data);
 			break;
 		case 2:
-			connectedPipes = j;
+			connectedPipes = data;
 			break;
 		case 3:
-			pipe.isPublic = (j == 1);
+			pipe.setPublic((data == 1));
+			break;
+		case 4:
+			pipe.setTeleportSide(EnumFacing.values()[data]);
 			break;
 		}
 	}
