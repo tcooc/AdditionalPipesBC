@@ -48,7 +48,7 @@ public class PipeBehaviorGravityFeed extends APPipe
 			{
 				((PipeFlowItems)pipe.getFlow()).tryExtractItems(1, EnumFacing.UP, null, StackFilter.ALL, false);
 			}
-
+			ticksSincePull = 0;
 		}
 	}
 
