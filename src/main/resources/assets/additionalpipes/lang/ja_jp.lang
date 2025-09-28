@@ -40,6 +40,8 @@ gui.NBT=タグ
 gui.metadata=メタ
 gui.acceptUnsorted=未指定を許可
 
+gui.teleport.ledger.no_owner=だれも
+
 gate.pipeClosed=パイプが閉鎖(内部にアイテムを貯蔵)
 
 key.lasers=チャンクの境界を表示

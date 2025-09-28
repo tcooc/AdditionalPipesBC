@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://files.minecraftforge.net/maven"
         }
     }
     dependencies {
@@ -14,7 +14,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "6.0.0.11"
+version = "6.0.0.9"
 group= "com.buildcraft.additionalpipes" 
 archivesBaseName = "additionalpipes"
 
@@ -37,7 +37,7 @@ repositories {
 	{
 		// location of the maven that hosts JEI files
     	name = "Progwml6 maven"
-    	url = "http://dvs1.progwml6.com/files/maven"
+    	url = "https://dvs1.progwml6.com/files/maven"
   	}
 	maven
 	{
@@ -49,23 +49,28 @@ repositories {
 	// Adding a "fake" ivy repository to allow downloading buildcraft from its URL
 	// See https://stackoverflow.com/a/34327202/7083698
 	ivy {
-		url 'http://www.mod-buildcraft.com/releases/'
+		url 'https://www.mod-buildcraft.com/releases/'
 		patternLayout {
 			artifact "[organization]/[revision]/[module]-main-[revision]-[classifier].jar"
 		}
 		metadataSources { artifact() }
 	}
 
+    maven {
+            url "https://cursemaven.com"
+    }
+
 }
 
 dependencies {
-	implementation('BuildCraft:buildcraft:7.99.24.1:dev')
+	implementation('BuildCraft:buildcraft:8.0.0:dev')
+    implementation('curse.maven:bccompat-233140:6376390')
 
 	
 	// compile against the JEI API but do not include it at runtime
 	deobfProvided "mezz.jei:jei_${mc_version}:${jei_version}:api"
 	// at runtime, use the full JEI jar
-    runtimeOnly "mezz.jei:jei_${mc_version}:${jei_version}"
+    //runtimeOnly "mezz.jei:jei_${mc_version}:${jei_version}"
 }
 // 30 96 254
 sourceSets {

@@ -1,5 +1,7 @@
 package buildcraft.additionalpipes;
 
+import com.google.common.collect.ImmutableSet;
+
 import buildcraft.additionalpipes.pipes.PipeBehaviorAddition;
 import buildcraft.additionalpipes.pipes.PipeBehaviorAdvWood;
 import buildcraft.additionalpipes.pipes.PipeBehaviorClosed;
@@ -12,11 +14,18 @@ import buildcraft.additionalpipes.pipes.PipeBehaviorTeleportFluids;
 import buildcraft.additionalpipes.pipes.PipeBehaviorTeleportItems;
 import buildcraft.additionalpipes.pipes.PipeBehaviorWaterPump;
 import buildcraft.additionalpipes.utils.PipeCreator;
+import buildcraft.api.mj.MjAPI;
+import buildcraft.api.recipes.AssemblyRecipeBasic;
+import buildcraft.api.recipes.IngredientStack;
 import buildcraft.api.transport.pipe.PipeApi;
 import buildcraft.api.transport.pipe.PipeDefinition;
 import buildcraft.api.transport.pipe.PipeDefinition.PipeDefinitionBuilder;
+import buildcraft.lib.recipe.AssemblyRecipeRegistry;
+import buildcraft.silicon.BCSiliconItems;
 import buildcraft.transport.BCTransportConfig;
+import buildcraft.transport.BCTransportItems;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 public class APPipeDefintions
@@ -112,12 +121,12 @@ public class APPipeDefintions
 		itemsTeleportPipeDef = new PipeDefinitionBuilder().flowItem().idTexPrefix("pipe_items_teleport").logic(PipeBehaviorTeleportItems::new, PipeBehaviorTeleportItems::new).define();
 		itemsTeleportPipeItem = PipeCreator.createPipeItem(itemsTeleportPipeDef);	
 		
-/*		// add assembly recipe for Item Teleport Pipe (Deprecated)
+		// add assembly recipe for Item Teleport Pipe
 		ImmutableSet<IngredientStack> tpRecipeIngredients = ImmutableSet.<IngredientStack>of(
 				IngredientStack.of(new ItemStack(BCSiliconItems.redstoneChipset, 1, 4)),
 				IngredientStack.of(new ItemStack(BCTransportItems.pipeItemDiamond)),
 				IngredientStack.of(new ItemStack(BCSiliconItems.redstoneChipset, 1, 3)));
-		AssemblyRecipeRegistry.register(new AssemblyRecipeBasic("teleportPipe", 10000 * MjAPI.MJ, tpRecipeIngredients, new ItemStack(itemsTeleportPipeItem, 8)));*/
+		AssemblyRecipeRegistry.register(new AssemblyRecipeBasic("teleportPipe", 10000 * MjAPI.MJ, tpRecipeIngredients, new ItemStack(itemsTeleportPipeItem, 8)));
 		
 		liquidsTeleportPipeDef = new PipeDefinitionBuilder().flowFluid().idTexPrefix("pipe_fluids_teleport").logic(PipeBehaviorTeleportFluids::new, PipeBehaviorTeleportFluids::new).define();
 		liquidsTeleportPipeItem = PipeCreator.createPipeItem(liquidsTeleportPipeDef);

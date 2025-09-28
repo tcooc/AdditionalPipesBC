@@ -78,7 +78,7 @@ public class GuiTeleportPipe extends GuiBC8<ContainerTeleportPipe> {
 			super(GuiTeleportPipe.this.mainGui, OVERLAY_COLOR, true);
 			this.title = TranslationKeys.TELEPORT_LEDGER_OWNERSHIP;
 
-			appendText(() -> ((!Objects.equals(pipe.getOwnerName(), ""))? pipe.getOwnerName() : "no-one"), 0);
+			appendText(() -> ((!Objects.equals(pipe.getOwnerName(), ""))? pipe.getOwnerName() : TranslationKeys.TELEPORT_LEDGER_NO_OWNER), 0);
 
 			calculateMaxSize();
 		}

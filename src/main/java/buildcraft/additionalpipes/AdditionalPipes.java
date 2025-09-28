@@ -48,7 +48,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 public class AdditionalPipes {
 	public static final String MODID = "additionalpipes";
 	public static final String NAME = "Additional Pipes";
-	public static final String VERSION = "6.0.0.11";
+	public static final String VERSION = "6.0.0.9";
 
 	@Instance(MODID)
 	public static AdditionalPipes instance;
