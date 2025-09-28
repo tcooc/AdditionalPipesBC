@@ -72,7 +72,7 @@ public class APConfiguration
 			waterPerTickProperty.setComment("Amount of water the Water Pump Pipe produces in millibuckets/tick");
 			waterPumpWaterPerTick = waterPerTickProperty.getInt();
 			
-			Property gpPullRateProperty = config.get(Configuration.CATEGORY_GENERAL, "gravityFeedPipeTicksPerPull", 48);
+			Property gpPullRateProperty = config.get(Configuration.CATEGORY_GENERAL, "gravityFeedPipeTicksPerPull", 20);
 			gpPullRateProperty.setComment("How many ticks the Gravity Feed Pipe needs to extract an item");
 			gravityFeedPipeTicksPerPull = gpPullRateProperty.getInt();
 			
