@@ -117,6 +117,8 @@ public class PipeBehaviorDistribution extends APPipe {
 					{
 						if(!toNextOpenSide())
 						{
+							// *shouldn't* be possible to get here due to the sideCheck() event handler, but keeping this logic just in case as
+							// otherwise we would hit an infinite hang.
 							Log.error("Failed to distribute itemstack. Allowing it to be routed randomly.");
 							entry.to.clear();
 							newDistribution.add(entry);
@@ -149,16 +151,13 @@ public class PipeBehaviorDistribution extends APPipe {
 	 * @return true if there is another open side that can accept an item stack, false otherwise.
 	 */
 	private boolean toNextOpenSide() 
-	{
-		EnumFacing lastDistSide = distSide;
-		
+	{		
 		itemsThisSide = 0;
 		for(int o = 0; o < distData.length; ++o) 
 		{
 			distSide = EnumFacing.VALUES[(distSide.ordinal() + 1) % distData.length];
 			if(distData[distSide.ordinal()] > 0 && pipe.isConnected(distSide))
 			{
-				Log.debug("toNextOpenSide(): distSide changed: " + lastDistSide + "-> " + distSide);
 				return true;
 			}
 		}
