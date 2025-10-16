@@ -65,6 +65,25 @@ public class PipeBehaviorDistribution extends APPipe {
 		return connection.ordinal();
 	}
 	
+	/**
+	 * @brief Event handler for the SideCheck event, which is called before the Split event.
+	 */
+	@PipeEventHandler
+	public void sideCheck(PipeEventItem.SideCheck sideCheckEvent) 
+	{
+		// Disallow all sides that have a distData value of 0 (all items disallowed).
+		// This is important to do so that if all distData values for connected sides are 0, we will just drop the item as it has nowhere to go.
+		// Note that we could also "bounce" the item back out of the distribution pipe by handling the TryBounce event, but dropping them
+		// seems simpler for now.
+		for(int o = 0; o < distData.length; ++o) 
+		{
+			if(distData[o] == 0)
+			{
+				sideCheckEvent.disallow(EnumFacing.VALUES[o]);
+			}
+		}
+	}
+	
 	@PipeEventHandler
 	public void splitStacks(PipeEventItem.Split splitEvent) 
 	{
@@ -96,7 +115,13 @@ public class PipeBehaviorDistribution extends APPipe {
 				{
 					if(getItemsLeftThisSide() <= 0)
 					{
-						toNextOpenSide();
+						if(!toNextOpenSide())
+						{
+							Log.error("Failed to distribute itemstack. Allowing it to be routed randomly.");
+							entry.to.clear();
+							newDistribution.add(entry);
+							break;
+						}
 					}
 					
 					ItemEntry stackPartThisSide = new ItemEntry(null, entry.stack.copy(), entry.from);
@@ -116,13 +141,14 @@ public class PipeBehaviorDistribution extends APPipe {
 		splitEvent.items.clear();
 		splitEvent.items.addAll(newDistribution);
 	}
-
 	
 
 	/**
 	 * Moves the pipe to the next open side.
+	 * 
+	 * @return true if there is another open side that can accept an item stack, false otherwise.
 	 */
-	private void toNextOpenSide() 
+	private boolean toNextOpenSide() 
 	{
 		EnumFacing lastDistSide = distSide;
 		
@@ -133,9 +159,11 @@ public class PipeBehaviorDistribution extends APPipe {
 			if(distData[distSide.ordinal()] > 0 && pipe.isConnected(distSide))
 			{
 				Log.debug("toNextOpenSide(): distSide changed: " + lastDistSide + "-> " + distSide);
-				return;
+				return true;
 			}
 		}
+		
+		return false;
 	}
 	
 	/**

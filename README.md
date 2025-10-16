@@ -23,6 +23,7 @@ Compiled binaries can be found in `build/libs`.
     
 ### Setting Up Eclipse ###
 1. Install Eclipse JDK.
+2. If your PC uses Java newer than 8 by default, update your `JAVA_HOME` environment variable to point to JDK 8.
 2. Run the command `gradlew setupDecompWorkspace --refresh-dependencies eclipse`
 3. In Eclipse, go to `File > Import... > General > Existing Projects into Workspace`
 4. Hit Next.  Click Browse... in the top right, and select the directory you cloned Additional Pipes into.  Check the box next to AdditionalPipesBC in the Projects list.
