@@ -45,12 +45,6 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 	{
 		super(pipe);
 		this.type = type;
-		
-		if(isServer())
-		{
-			TeleportManager.instance.add(this, frequency);
-		}
-
 	}
 	
 	public PipeBehaviorTeleport(IPipe pipe, NBTTagCompound tagCompound, TeleportPipeType type)
@@ -66,11 +60,6 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 			ownerName = tagCompound.getString("ownerName");
 		}
 		isPublic = tagCompound.getBoolean("isPublic");
-		
-		if(isServer())
-		{
-			TeleportManager.instance.add(this, frequency);
-		}
 	}
 	
 	@Override
@@ -151,6 +140,7 @@ public abstract class PipeBehaviorTeleport extends APPipe implements ITeleportPi
 		if(isServer())
 		{
 			Log.debug("Teleport pipe at " + getPos() + " validated");
+			TeleportManager.instance.add(this, frequency);
 		}
 	}
 
