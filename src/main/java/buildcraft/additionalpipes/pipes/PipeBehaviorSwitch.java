@@ -1,7 +1,6 @@
 package buildcraft.additionalpipes.pipes;
 
 import buildcraft.api.transport.pipe.IPipe;
-import buildcraft.api.transport.pipe.IPipeHolder.PipeMessageReceiver;
 import buildcraft.api.transport.pipe.PipeBehaviour;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -49,7 +48,7 @@ public class PipeBehaviorSwitch extends APPipe
 		if(canConnect != newCanConnect)
 		{
 			canConnect = newCanConnect;
-			pipe.getHolder().scheduleNetworkUpdate(PipeMessageReceiver.BEHAVIOUR);
+			pipe.markForUpdate();
 		}
 	}
 	
