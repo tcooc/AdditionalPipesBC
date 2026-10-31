@@ -75,9 +75,23 @@ public class PipeBehaviorTeleportFluids extends PipeBehaviorTeleport
 		{
 			ArrayList<PipeBehaviorTeleportFluids> connectedPipes = (ArrayList)TeleportManager.instance.getConnectedPipes(this, false, true);
 			
-			Log.debug("[FluidTeleportPipe] Got " + event.fluid.amount + " MB of fluid");
-			
+			// PipeFlowFluids reuses event.fluid as the pipe's fluid type/state.
+			// Its amount is not the amount moved in this tick; using it here makes
+			// the receiver gain more fluid than was removed from the sender.
+			int movedMB = 0;
+			for (EnumFacing side : EnumFacing.VALUES)
+			{
+				movedMB += event.fluidLeavingSide[side.ordinal()];
+			}
+			if (movedMB <= 0)
+			{
+				return;
+			}
+
+			Log.debug("[FluidTeleportPipe] Got " + movedMB + " MB of fluid");
+
 			FluidStack remaining = event.fluid.copy();
+			remaining.amount = movedMB;
 						
 			// loop until we're out of fluid, or until no pipes need it
 			while(remaining.amount > 0 && connectedPipes.size() > 0)
